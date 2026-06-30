@@ -95,5 +95,5 @@ Actualmente el proyecto se encuentra en construcción y se irán incorporando nu
 
 **Agustín Luzuriaga**
 
-- LinkedIn: https://www.linkedin.com/in/agustin-luzuriaga-ba464a197/
+- LinkedIn: https://www.linkedin.com/in/agustín-luzuriaga-ba464a197/
 - GitHub: https://github.com/AgusLuzu2004
