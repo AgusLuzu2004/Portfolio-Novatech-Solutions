@@ -1,1 +1,26 @@
 id_producto,nombre,marca,id_categoria,precio,stock
+1,IdeaPad 3,Lenovo,1,934942,10
+2,Inspiron 15,Lenovo,1,1484902,49
+3,Pavilion 15,Lenovo,1,1748036,58
+4,VivoBook 15,Lenovo,1,2160479,89
+5,Aspire 5,Lenovo,1,658866,84
+6,IdeaPad 3,Dell,1,1764687,55
+7,Inspiron 15,Dell,1,1778736,38
+8,Pavilion 15,Dell,1,1661179,97
+9,VivoBook 15,Dell,1,944582,66
+10,Aspire 5,Dell,1,2261684,23
+11,IdeaPad 3,HP,1,1298880,32
+12,Inspiron 15,HP,1,1844344,30
+13,Pavilion 15,HP,1,1102174,54
+14,VivoBook 15,HP,1,2132068,56
+15,Aspire 5,HP,1,2254306,41
+16,IdeaPad 3,Asus,1,954116,31
+17,Inspiron 15,Asus,1,1455169,21
+18,Pavilion 15,Asus,1,1042885,75
+19,VivoBook 15,Asus,1,1030169,77
+20,Aspire 5,Asus,1,2236130,6
+21,IdeaPad 3,Acer,1,1989781,44
+22,Inspiron 15,Acer,1,1797606,66
+23,Pavilion 15,Acer,1,1928958,27
+24,VivoBook 15,Acer,1,1763627,28
+25,Aspire 5,Acer,1,1853677,33
