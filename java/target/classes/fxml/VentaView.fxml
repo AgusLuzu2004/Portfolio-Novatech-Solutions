@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.VentaController">
+
+    <top>
+        <Label text="Registrar Venta"/>
+    </top>
+
+    <center>
+
+        <VBox spacing="15">
+
+            <GridPane hgap="10" vgap="10">
+
+                <Label text="Cliente"/>
+                <ComboBox fx:id="cmbCliente"/>
+
+                <Label text="Empleado"/>
+                <ComboBox fx:id="cmbEmpleado"/>
+
+                <Label text="Medio de Pago"/>
+                <ComboBox fx:id="cmbMedioPago"/>
+
+                <Label text="Canal"/>
+                <ComboBox fx:id="cmbCanal"/>
+
+                <Label text="Descuento (%)"/>
+                <TextField fx:id="txtDescuento"/>
+
+            </GridPane>
+
+            <GridPane hgap="10">
+
+                <Label text="Producto"/>
+
+                <ComboBox fx:id="cmbProducto"/>
+
+                <Label text="Cantidad"/>
+
+                <Spinner fx:id="spCantidad"/>
+
+                <Button
+                    text="Agregar"
+                    onAction="#agregarProducto"/>
+
+            </GridPane>
+
+            <TableView fx:id="tblDetalles">
+
+                <columns>
+
+                    <TableColumn
+                        fx:id="colProducto"
+                        text="Producto"/>
+
+                    <TableColumn
+                        fx:id="colCantidad"
+                        text="Cantidad"/>
+
+                    <TableColumn
+                        fx:id="colPrecio"
+                        text="Precio"/>
+
+                    <TableColumn
+                        fx:id="colSubtotal"
+                        text="Subtotal"/>
+
+                </columns>
+
+            </TableView>
+
+            <HBox spacing="10">
+
+                <Label text="TOTAL:"/>
+
+                <Label fx:id="lblTotal"/>
+
+            </HBox>
+
+        </VBox>
+
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10">
+
+            <Button
+                text="Eliminar Producto"
+                onAction="#eliminarProducto"/>
+
+            <Button
+                text="Cancelar"
+                onAction="#limpiarFormulario"/>
+
+            <Button
+                text="Confirmar Venta"
+                onAction="#confirmarVenta"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.PreferenciasController">
+
+    <top>
+
+        <Label
+                text="Preferencias"
+                style="-fx-font-size: 24px; -fx-font-weight: bold;"
+                BorderPane.alignment="CENTER"/>
+
+    </top>
+
+    <center>
+
+        <GridPane hgap="15"
+                  vgap="15"
+                  alignment="CENTER">
+
+            <padding>
+
+                <Insets top="30"
+                        right="30"
+                        bottom="30"
+                        left="30"/>
+
+            </padding>
+
+            <Label text="Tema:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+
+            <ComboBox fx:id="cmbTema"
+                      GridPane.rowIndex="0"
+                      GridPane.columnIndex="1">
+
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Claro"/>
+                        <String fx:value="Oscuro"/>
+                    </FXCollections>
+                </items>
+
+            </ComboBox>
+
+            <Label text="Idioma:"
+                   GridPane.rowIndex="1"
+                   GridPane.columnIndex="0"/>
+
+            <ComboBox fx:id="cmbIdioma"
+                      GridPane.rowIndex="1"
+                      GridPane.columnIndex="1">
+
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Español"/>
+                        <String fx:value="English"/>
+                    </FXCollections>
+                </items>
+
+            </ComboBox>
+
+            <Label text="Carpeta de exportación:"
+                   GridPane.rowIndex="2"
+                   GridPane.columnIndex="0"/>
+
+            <TextField fx:id="txtRuta"
+                       prefWidth="300"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="1"/>
+
+            <CheckBox
+                    fx:id="chkAutoGuardar"
+                    text="Guardar automáticamente"
+                    selected="true"
+                    GridPane.rowIndex="3"
+                    GridPane.columnIndex="1"/>
+
+            <HBox spacing="15"
+                  alignment="CENTER_RIGHT"
+                  GridPane.rowIndex="4"
+                  GridPane.columnIndex="1">
+
+                <Button
+                        text="Restaurar"
+                        onAction="#restaurarValores"/>
+
+                <Button
+                        text="Guardar"
+                        onAction="#guardarPreferencias"/>
+
+            </HBox>
+
+        </GridPane>
+
+    </center>
+
+</BorderPane>

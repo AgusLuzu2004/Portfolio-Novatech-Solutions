@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.MenuPrincipalController">
+
+    <top>
+
+        <MenuBar>
+
+            <Menu text="Archivo">
+                <MenuItem text="Salir" onAction="#salir"/>
+            </Menu>
+
+            <Menu text="Gestión">
+
+                <MenuItem text="Clientes" onAction="#abrirClientes"/>
+                <MenuItem text="Productos" onAction="#abrirProductos"/>
+                <MenuItem text="Empleados" onAction="#abrirEmpleados"/>
+                <MenuItem text="Ventas" onAction="#abrirVentas"/>
+
+            </Menu>
+
+            <Menu text="Reportes">
+
+                <MenuItem text="Reportes" onAction="#abrirReportes"/>
+                <MenuItem text="Exportaciones" onAction="#abrirExportaciones"/>
+
+            </Menu>
+
+            <Menu text="Administración">
+
+                <MenuItem text="Usuarios" onAction="#abrirUsuarios"/>
+                <MenuItem text="Auditoría" onAction="#abrirAuditoria"/>
+                <MenuItem text="Configuración" onAction="#abrirConfiguracion"/>
+                <MenuItem text="Backups" onAction="#abrirBackup"/>
+                <MenuItem text="Preferencias" onAction="#abrirPreferencias"/>
+
+            </Menu>
+
+        </MenuBar>
+
+    </top>
+
+    <center>
+
+        <VBox spacing="20" alignment="CENTER">
+
+            <padding>
+                <Insets top="40"/>
+            </padding>
+
+            <Label text="NovaTech Solutions"
+                   style="-fx-font-size:30px;-fx-font-weight:bold;"/>
+
+            <Label text="Sistema de Gestión Comercial"/>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

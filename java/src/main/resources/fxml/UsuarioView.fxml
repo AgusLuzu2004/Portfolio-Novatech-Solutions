@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.UsuarioController">
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+
+            <Label text="Gestión de Usuarios"
+                   style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+
+            <HBox spacing="10">
+
+                <Label text="Buscar:"/>
+
+                <TextField fx:id="txtBuscar"
+                           promptText="Usuario"/>
+
+                <Button text="Buscar"
+                        onAction="#buscarUsuario"/>
+
+            </HBox>
+
+        </VBox>
+    </top>
+
+    <center>
+
+        <TableView fx:id="tablaUsuarios">
+
+            <columns>
+
+                <TableColumn fx:id="colId" text="ID"/>
+
+                <TableColumn fx:id="colUsuario" text="Usuario"/>
+
+                <TableColumn fx:id="colNombre" text="Nombre"/>
+
+                <TableColumn fx:id="colRol" text="Rol"/>
+
+                <TableColumn fx:id="colActivo" text="Activo"/>
+
+            </columns>
+
+        </TableView>
+
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER"
+              style="-fx-padding:10;">
+
+            <Button fx:id="btnNuevo"
+                    text="Nuevo"
+                    onAction="#nuevoUsuario"/>
+
+            <Button fx:id="btnEditar"
+                    text="Editar"
+                    onAction="#editarUsuario"/>
+
+            <Button fx:id="btnEliminar"
+                    text="Eliminar"
+                    onAction="#eliminarUsuario"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

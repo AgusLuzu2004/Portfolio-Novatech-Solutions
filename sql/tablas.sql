@@ -111,3 +111,33 @@ CREATE TABLE ventas (
         REFERENCES empleados(id_empleado)
 
 );
+
+CREATE TABLE usuarios (
+
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+
+    usuario VARCHAR(50) UNIQUE NOT NULL,
+
+    contraseña VARCHAR(255) NOT NULL,
+
+    nombre VARCHAR(100) NOT NULL,
+
+    rol VARCHAR(30) NOT NULL,
+
+    activo BOOLEAN DEFAULT TRUE
+
+);
+
+CREATE TABLE auditoria (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    usuario VARCHAR(100),
+
+    accion VARCHAR(100),
+
+    modulo VARCHAR(100),
+
+    fecha DATETIME
+
+);

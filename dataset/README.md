@@ -8,12 +8,12 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-# Entidades
+## Entidades
 
-## Clientes
+### Clientes
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_cliente | INT |
 | nombre | VARCHAR |
 | apellido | VARCHAR |
@@ -25,19 +25,19 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-## Categorías
+### Categorías
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_categoria | INT |
 | nombre_categoria | VARCHAR |
 
 ---
 
-## Productos
+### Productos
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_producto | INT |
 | nombre | VARCHAR |
 | marca | VARCHAR |
@@ -47,10 +47,10 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-## Sucursales
+### Sucursales
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_sucursal | INT |
 | nombre | VARCHAR |
 | ciudad | VARCHAR |
@@ -58,10 +58,10 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-## Empleados
+### Empleados
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_empleado | INT |
 | nombre | VARCHAR |
 | apellido | VARCHAR |
@@ -70,10 +70,10 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-## Ventas
+### Ventas
 
 | Campo | Tipo |
-|--------|------|
+| -------- | ------ |
 | id_venta | INT |
 | fecha | DATE |
 | id_cliente | INT |
@@ -87,7 +87,7 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-# Relaciones
+## Relaciones
 
 - Un cliente puede realizar muchas ventas.
 - Un producto pertenece a una única categoría.
@@ -98,7 +98,7 @@ El objetivo del modelo es representar el funcionamiento de una empresa dedicada 
 
 ---
 
-# Objetivo del modelo
+## Objetivo del modelo
 
 Este modelo servirá como base para los proyectos de:
 

@@ -29,5 +29,9 @@
             "database": "novatech",
             "username": "root"
         }
-    ]
+    ],
+    "cSpell.words": [
+        "Initializable"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

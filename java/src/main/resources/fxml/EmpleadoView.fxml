@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.EmpleadoController">
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+
+            <Label text="Gestión de Empleados"
+                   style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+
+            <HBox spacing="10">
+
+                <Label text="Buscar:"/>
+
+                <TextField fx:id="txtBuscar"
+                           promptText="Nombre"/>
+
+                <Button text="Buscar"
+                        onAction="#buscarEmpleado"/>
+
+            </HBox>
+
+        </VBox>
+    </top>
+
+    <center>
+
+        <TableView fx:id="tablaEmpleados">
+
+            <columns>
+
+                <TableColumn fx:id="colId" text="ID"/>
+
+                <TableColumn fx:id="colNombre" text="Nombre"/>
+
+                <TableColumn fx:id="colApellido" text="Apellido"/>
+
+                <TableColumn fx:id="colSucursal" text="Sucursal"/>
+
+                <TableColumn fx:id="colFechaIngreso" text="Fecha de Ingreso"/>
+
+            </columns>
+
+        </TableView>
+
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER"
+              style="-fx-padding:10;">
+
+            <Button fx:id="btnNuevo"
+                    text="Nuevo"
+                    onAction="#nuevoEmpleado"/>
+
+            <Button fx:id="btnEditar"
+                    text="Editar"
+                    onAction="#editarEmpleado"/>
+
+            <Button fx:id="btnEliminar"
+                    text="Eliminar"
+                    onAction="#eliminarEmpleado"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

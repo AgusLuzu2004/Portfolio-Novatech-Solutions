@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.novatech.controller.ProductoController">
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+
+            <Label text="Gestión de Productos"
+                   style="-fx-font-size:20px; -fx-font-weight:bold;"/>
+
+            <HBox spacing="10">
+
+                <Label text="Buscar:"/>
+
+                <TextField fx:id="txtBuscar"
+                           promptText="Nombre"/>
+
+                <Button text="Buscar"
+                        onAction="#buscarProducto"/>
+
+                <Label text="Marca:"/>
+
+                <ComboBox fx:id="cmbMarca"
+                          onAction="#filtrarMarca"/>
+
+            </HBox>
+
+        </VBox>
+    </top>
+
+    <center>
+
+        <TableView fx:id="tablaProductos">
+
+            <columns>
+
+                <TableColumn fx:id="colId" text="ID"/>
+
+                <TableColumn fx:id="colNombre" text="Nombre"/>
+
+                <TableColumn fx:id="colMarca" text="Marca"/>
+
+                <TableColumn fx:id="colCategoria" text="Categoria"/>
+
+                <TableColumn fx:id="colPrecio" text="Precio"/>
+
+                <TableColumn fx:id="colStock" text="Stock"/>
+
+            </columns>
+
+        </TableView>
+
+    </center>
+
+    <bottom>
+
+        <HBox spacing="10"
+              alignment="CENTER"
+              style="-fx-padding:10;">
+
+            <Button fx:id="btnNuevo"
+                    text="Nuevo"
+                    onAction="#nuevoProducto"/>
+
+            <Button fx:id="btnEditar"
+                    text="Editar"
+                    onAction="#editarProducto"/>
+
+            <Button fx:id="btnEliminar"
+                    text="Eliminar"
+                    onAction="#eliminarProducto"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

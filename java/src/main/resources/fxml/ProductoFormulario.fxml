@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.novatech.controller.ProductoFormularioController">
+
+    <top>
+        <Label text="Nuevo Producto"
+               style="-fx-font-size:20px; -fx-font-weight:bold;">
+            <BorderPane.margin>
+                <Insets top="15" bottom="15" left="20"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <center>
+
+        <GridPane hgap="15" vgap="15">
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtNombre"
+                       promptText="Ingrese el nombre"
+                       GridPane.columnIndex="1"
+                       GridPane.rowIndex="0"/>
+
+            <Label text="Marca:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <ComboBox fx:id="cmbMarca"
+                       prefWidth="250"
+                       GridPane.columnIndex="1"
+                       GridPane.rowIndex="1"/>
+
+            <Label text="Categoria:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <ComboBox fx:id="cmbCategoria"
+                       prefWidth="250"
+                       GridPane.columnIndex="1"
+                       GridPane.rowIndex="2"/>
+
+            <Label text="Precio:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="txtPrecio"
+                       promptText="Ingrese el precio"
+                       GridPane.columnIndex="1"
+                       GridPane.rowIndex="3"/>
+
+            <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="txtStock"
+                      promptText="Ingrese el stock"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="4"/>
+
+        </GridPane>
+
+    </center>
+
+    <bottom>
+
+        <HBox spacing="15"
+              alignment="CENTER_RIGHT">
+
+            <padding>
+                <Insets top="10" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Button fx:id="btnGuardar"
+                    text="Guardar"
+                    onAction="#guardarProducto"/>
+
+            <Button fx:id="btnCancelar"
+                    text="Cancelar"
+                    onAction="#cancelar"/>
+
+        </HBox>
+
+    </bottom>
+
+</BorderPane>

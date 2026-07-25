@@ -1,4 +1,4 @@
-## Importación de datos
+# Importación de datos
 
 Los datos fueron generados mediante un script en Python y cargados en MySQL utilizando `LOAD DATA LOCAL INFILE`.
 

@@ -31,7 +31,7 @@ El objetivo del proyecto es demostrar conocimientos en análisis de datos, progr
 
 ## 📁 Estructura del proyecto
 
-```
+```text
 Portfolio-Novatech-Solutions
 │
 ├── dataset
@@ -93,7 +93,7 @@ Actualmente el proyecto se encuentra en construcción y se irán incorporando nu
 
 ## 👤 Autor
 
-**Agustín Luzuriaga**
+### Agustín Luzuriaga
 
-- LinkedIn: https://www.linkedin.com/in/agustín-luzuriaga-ba464a197/
-- GitHub: https://github.com/AgusLuzu2004
+- LinkedIn: <https://www.linkedin.com/in/agustín-luzuriaga-ba464a197/>
+- GitHub: <https://github.com/AgusLuzu2004>
