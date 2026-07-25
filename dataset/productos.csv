@@ -1,26 +1,151 @@
 id_producto,nombre,marca,id_categoria,precio,stock
-1,IdeaPad 3,Lenovo,1,934942,10
-2,Inspiron 15,Lenovo,1,1484902,49
-3,Pavilion 15,Lenovo,1,1748036,58
-4,VivoBook 15,Lenovo,1,2160479,89
-5,Aspire 5,Lenovo,1,658866,84
-6,IdeaPad 3,Dell,1,1764687,55
-7,Inspiron 15,Dell,1,1778736,38
-8,Pavilion 15,Dell,1,1661179,97
-9,VivoBook 15,Dell,1,944582,66
-10,Aspire 5,Dell,1,2261684,23
-11,IdeaPad 3,HP,1,1298880,32
-12,Inspiron 15,HP,1,1844344,30
-13,Pavilion 15,HP,1,1102174,54
-14,VivoBook 15,HP,1,2132068,56
-15,Aspire 5,HP,1,2254306,41
-16,IdeaPad 3,Asus,1,954116,31
-17,Inspiron 15,Asus,1,1455169,21
-18,Pavilion 15,Asus,1,1042885,75
-19,VivoBook 15,Asus,1,1030169,77
-20,Aspire 5,Asus,1,2236130,6
-21,IdeaPad 3,Acer,1,1989781,44
-22,Inspiron 15,Acer,1,1797606,66
-23,Pavilion 15,Acer,1,1928958,27
-24,VivoBook 15,Acer,1,1763627,28
-25,Aspire 5,Acer,1,1853677,33
+1,IdeaPad 3,Lenovo,1,1124829,61
+2,Inspiron 15,Lenovo,1,2203549,53
+3,Pavilion 15,Lenovo,1,704113,38
+4,VivoBook 15,Lenovo,1,688511,84
+5,Aspire 5,Lenovo,1,942869,37
+6,IdeaPad 3,Dell,1,851647,34
+7,Inspiron 15,Dell,1,815979,90
+8,Pavilion 15,Dell,1,1808817,25
+9,VivoBook 15,Dell,1,1944103,18
+10,Aspire 5,Dell,1,824112,49
+11,IdeaPad 3,HP,1,1225987,96
+12,Inspiron 15,HP,1,1110595,79
+13,Pavilion 15,HP,1,2084288,7
+14,VivoBook 15,HP,1,1882522,57
+15,Aspire 5,HP,1,2256407,36
+16,IdeaPad 3,Asus,1,2169916,22
+17,Inspiron 15,Asus,1,785761,36
+18,Pavilion 15,Asus,1,1392160,43
+19,VivoBook 15,Asus,1,1876921,42
+20,Aspire 5,Asus,1,1802140,16
+21,IdeaPad 3,Acer,1,1402054,20
+22,Inspiron 15,Acer,1,2124118,76
+23,Pavilion 15,Acer,1,1108646,8
+24,VivoBook 15,Acer,1,1217551,36
+25,Aspire 5,Acer,1,1187107,83
+26,"Odyssey G5 24""",Samsung,2,354125,86
+27,UltraGear 24GN60,Samsung,2,173598,15
+28,24G2SPU,Samsung,2,452335,83
+29,S2421NX,Samsung,2,369923,71
+30,TUF Gaming VG249,Samsung,2,500547,87
+31,"Odyssey G5 24""",LG,2,545983,59
+32,UltraGear 24GN60,LG,2,536121,13
+33,24G2SPU,LG,2,463408,10
+34,S2421NX,LG,2,362631,60
+35,TUF Gaming VG249,LG,2,317231,75
+36,"Odyssey G5 24""",AOC,2,435502,7
+37,UltraGear 24GN60,AOC,2,299767,43
+38,24G2SPU,AOC,2,484692,55
+39,S2421NX,AOC,2,496850,66
+40,TUF Gaming VG249,AOC,2,172118,44
+41,"Odyssey G5 24""",Dell,2,528589,47
+42,UltraGear 24GN60,Dell,2,459765,66
+43,24G2SPU,Dell,2,334619,75
+44,S2421NX,Dell,2,447825,97
+45,TUF Gaming VG249,Dell,2,386157,16
+46,"Odyssey G5 24""",Asus,2,475964,94
+47,UltraGear 24GN60,Asus,2,286719,49
+48,24G2SPU,Asus,2,237206,19
+49,S2421NX,Asus,2,338530,80
+50,TUF Gaming VG249,Asus,2,282282,67
+51,MK120 Combo,Logitech,3,80482,60
+52,DeathAdder Essential,Logitech,3,69726,64
+53,Kumara K552,Logitech,3,53979,33
+54,Alloy Core,Logitech,3,72197,99
+55,Combo Smart,Logitech,3,91009,80
+56,MK120 Combo,Razer,3,126168,57
+57,DeathAdder Essential,Razer,3,75953,67
+58,Kumara K552,Razer,3,34774,36
+59,Alloy Core,Razer,3,32499,80
+60,Combo Smart,Razer,3,86747,78
+61,MK120 Combo,Redragon,3,59438,100
+62,DeathAdder Essential,Redragon,3,25218,36
+63,Kumara K552,Redragon,3,90834,99
+64,Alloy Core,Redragon,3,120327,48
+65,Combo Smart,Redragon,3,45620,69
+66,MK120 Combo,HyperX,3,109610,57
+67,DeathAdder Essential,HyperX,3,112410,92
+68,Kumara K552,HyperX,3,45665,78
+69,Alloy Core,HyperX,3,76546,51
+70,Combo Smart,HyperX,3,103106,89
+71,MK120 Combo,Genius,3,24970,13
+72,DeathAdder Essential,Genius,3,99968,48
+73,Kumara K552,Genius,3,140989,55
+74,Alloy Core,Genius,3,77390,90
+75,Combo Smart,Genius,3,27785,71
+76,A400 SSD 480GB,Kingston,4,126864,38
+77,Blue HDD 1TB,Kingston,4,62822,52
+78,Barracuda 2TB,Kingston,4,209176,11
+79,870 EVO 500GB,Kingston,4,49288,19
+80,BX500 240GB,Kingston,4,190014,43
+81,A400 SSD 480GB,Western Digital,4,172975,62
+82,Blue HDD 1TB,Western Digital,4,228381,68
+83,Barracuda 2TB,Western Digital,4,121405,5
+84,870 EVO 500GB,Western Digital,4,277789,16
+85,BX500 240GB,Western Digital,4,287367,31
+86,A400 SSD 480GB,Seagate,4,96363,66
+87,Blue HDD 1TB,Seagate,4,99737,57
+88,Barracuda 2TB,Seagate,4,140757,44
+89,870 EVO 500GB,Seagate,4,58946,26
+90,BX500 240GB,Seagate,4,170021,89
+91,A400 SSD 480GB,Samsung,4,239013,8
+92,Blue HDD 1TB,Samsung,4,288041,60
+93,Barracuda 2TB,Samsung,4,210413,90
+94,870 EVO 500GB,Samsung,4,74574,25
+95,BX500 240GB,Samsung,4,47685,68
+96,A400 SSD 480GB,Crucial,4,58982,98
+97,Blue HDD 1TB,Crucial,4,88456,73
+98,Barracuda 2TB,Crucial,4,289844,60
+99,870 EVO 500GB,Crucial,4,98416,30
+100,BX500 240GB,Crucial,4,55643,33
+101,Tune 510BT,JBL,5,75638,78
+102,G435,JBL,5,107722,93
+103,Cloud Stinger,JBL,5,238351,50
+104,WH-CH510,JBL,5,62368,63
+105,HS50,JBL,5,106094,50
+106,Tune 510BT,Logitech,5,144819,94
+107,G435,Logitech,5,131515,52
+108,Cloud Stinger,Logitech,5,145800,82
+109,WH-CH510,Logitech,5,64750,35
+110,HS50,Logitech,5,114140,5
+111,Tune 510BT,HyperX,5,193216,45
+112,G435,HyperX,5,70221,90
+113,Cloud Stinger,HyperX,5,86956,38
+114,WH-CH510,HyperX,5,67830,55
+115,HS50,HyperX,5,89197,86
+116,Tune 510BT,Sony,5,110824,88
+117,G435,Sony,5,54765,6
+118,Cloud Stinger,Sony,5,97223,19
+119,WH-CH510,Sony,5,49044,99
+120,HS50,Sony,5,150413,16
+121,Tune 510BT,Corsair,5,132850,44
+122,G435,Corsair,5,39286,54
+123,Cloud Stinger,Corsair,5,227727,37
+124,WH-CH510,Corsair,5,134330,33
+125,HS50,Corsair,5,84124,71
+126,Mousepad G240,Logitech,6,9393,100
+127,Hub USB 4 puertos,Logitech,6,37735,64
+128,Soporte para Notebook,Logitech,6,9311,23
+129,"Funda 15.6""",Logitech,6,54448,43
+130,Cable HDMI 2m,Logitech,6,53347,34
+131,Mousepad G240,Genius,6,27926,78
+132,Hub USB 4 puertos,Genius,6,6977,38
+133,Soporte para Notebook,Genius,6,31839,72
+134,"Funda 15.6""",Genius,6,50607,19
+135,Cable HDMI 2m,Genius,6,6733,32
+136,Mousepad G240,Redragon,6,37113,78
+137,Hub USB 4 puertos,Redragon,6,54978,22
+138,Soporte para Notebook,Redragon,6,5017,13
+139,"Funda 15.6""",Redragon,6,27484,27
+140,Cable HDMI 2m,Redragon,6,10864,34
+141,Mousepad G240,Trust,6,9922,23
+142,Hub USB 4 puertos,Trust,6,43925,84
+143,Soporte para Notebook,Trust,6,32394,20
+144,"Funda 15.6""",Trust,6,18402,59
+145,Cable HDMI 2m,Trust,6,19394,49
+146,Mousepad G240,Belkin,6,5652,13
+147,Hub USB 4 puertos,Belkin,6,57244,62
+148,Soporte para Notebook,Belkin,6,29102,86
+149,"Funda 15.6""",Belkin,6,26143,27
+150,Cable HDMI 2m,Belkin,6,54866,62

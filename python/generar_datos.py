@@ -68,6 +68,71 @@ productos = {
         ],
         "precio_min": 650000,
         "precio_max": 2300000
+    },
+    "Monitores": {
+        "categoria": 2,
+        "marcas": ["Samsung", "LG", "AOC", "Dell", "Asus"],
+        "modelos": [
+            "Odyssey G5 24\"",
+            "UltraGear 24GN60",
+            "24G2SPU",
+            "S2421NX",
+            "TUF Gaming VG249"
+        ],
+        "precio_min": 150000,
+        "precio_max": 600000
+    },
+    "Periféricos": {
+        "categoria": 3,
+        "marcas": ["Logitech", "Razer", "Redragon", "HyperX", "Genius"],
+        "modelos": [
+            "MK120 Combo",
+            "DeathAdder Essential",
+            "Kumara K552",
+            "Alloy Core",
+            "Combo Smart"
+        ],
+        "precio_min": 20000,
+        "precio_max": 150000
+    },
+    "Almacenamiento": {
+        "categoria": 4,
+        "marcas": ["Kingston", "Western Digital", "Seagate", "Samsung", "Crucial"],
+        "modelos": [
+            "A400 SSD 480GB",
+            "Blue HDD 1TB",
+            "Barracuda 2TB",
+            "870 EVO 500GB",
+            "BX500 240GB"
+        ],
+        "precio_min": 40000,
+        "precio_max": 300000
+    },
+    "Audio": {
+        "categoria": 5,
+        "marcas": ["JBL", "Logitech", "HyperX", "Sony", "Corsair"],
+        "modelos": [
+            "Tune 510BT",
+            "G435",
+            "Cloud Stinger",
+            "WH-CH510",
+            "HS50"
+        ],
+        "precio_min": 30000,
+        "precio_max": 250000
+    },
+    "Accesorios": {
+        "categoria": 6,
+        "marcas": ["Logitech", "Genius", "Redragon", "Trust", "Belkin"],
+        "modelos": [
+            "Mousepad G240",
+            "Hub USB 4 puertos",
+            "Soporte para Notebook",
+            "Funda 15.6\"",
+            "Cable HDMI 2m"
+        ],
+        "precio_min": 5000,
+        "precio_max": 60000
     }
 }
 
@@ -103,20 +168,229 @@ def generar_productos():
 
 generar_productos()
 
+ubicaciones = {
+    "Buenos Aires": [
+        "La Plata",
+        "Mar del Plata",
+        "Bahía Blanca",
+        "Quilmes",
+        "Avellaneda",
+        "Lanús",
+        "Morón",
+        "San Isidro",
+        "Tandil",
+        "Olavarría",
+        "Pergamino",
+        "Junín",
+        "Necochea",
+        "San Nicolás",
+        "Zárate"
+    ],
+
+    "CABA": [
+        "CABA"
+    ],
+
+    "Catamarca": [
+        "San Fernando del Valle de Catamarca",
+        "Belén",
+        "Andalgalá",
+        "Tinogasta",
+        "Santa María"
+    ],
+
+    "Chaco": [
+        "Resistencia",
+        "Presidencia Roque Sáenz Peña",
+        "Villa Ángela",
+        "Charata",
+        "Barranqueras"
+    ],
+
+    "Chubut": [
+        "Comodoro Rivadavia",
+        "Trelew",
+        "Puerto Madryn",
+        "Esquel",
+        "Rawson"
+    ],
+
+    "Córdoba": [
+        "Córdoba",
+        "Villa María",
+        "Río Cuarto",
+        "Villa Carlos Paz",
+        "San Francisco",
+        "Alta Gracia"
+    ],
+
+    "Corrientes": [
+        "Corrientes",
+        "Goya",
+        "Paso de los Libres",
+        "Mercedes",
+        "Curuzú Cuatiá"
+    ],
+
+    "Entre Ríos": [
+        "Paraná",
+        "Concordia",
+        "Gualeguaychú",
+        "Concepción del Uruguay",
+        "Victoria"
+    ],
+
+    "Formosa": [
+        "Formosa",
+        "Clorinda",
+        "Pirané",
+        "El Colorado",
+        "Las Lomitas"
+    ],
+
+    "Jujuy": [
+        "San Salvador de Jujuy",
+        "Palpalá",
+        "Perico",
+        "Libertador General San Martín",
+        "Humahuaca"
+    ],
+
+    "La Pampa": [
+        "Santa Rosa",
+        "General Pico",
+        "Toay",
+        "Realicó",
+        "Eduardo Castex"
+    ],
+
+    "La Rioja": [
+        "La Rioja",
+        "Chilecito",
+        "Aimogasta",
+        "Chamical",
+        "Chepes"
+    ],
+
+    "Mendoza": [
+        "Mendoza",
+        "Godoy Cruz",
+        "Maipú",
+        "San Rafael",
+        "Luján de Cuyo",
+        "Tunuyán"
+    ],
+
+    "Misiones": [
+        "Posadas",
+        "Oberá",
+        "Eldorado",
+        "Puerto Iguazú",
+        "Apóstoles"
+    ],
+
+    "Neuquén": [
+        "Neuquén",
+        "Cutral Co",
+        "Zapala",
+        "San Martín de los Andes",
+        "Plottier"
+    ],
+
+    "Río Negro": [
+        "Viedma",
+        "San Carlos de Bariloche",
+        "General Roca",
+        "Cipolletti",
+        "Villa Regina"
+    ],
+
+    "Salta": [
+        "Salta",
+        "Tartagal",
+        "Orán",
+        "Metán",
+        "General Güemes"
+    ],
+
+    "San Juan": [
+        "San Juan",
+        "Rawson",
+        "Pocito",
+        "Caucete",
+        "Jáchal"
+    ],
+
+    "San Luis": [
+        "San Luis",
+        "Villa Mercedes",
+        "Merlo",
+        "La Punta",
+        "Juana Koslay"
+    ],
+
+    "Santa Cruz": [
+        "Río Gallegos",
+        "Caleta Olivia",
+        "El Calafate",
+        "Puerto Deseado",
+        "Pico Truncado"
+    ],
+
+    "Santa Fe": [
+        "Rosario",
+        "Santa Fe",
+        "Rafaela",
+        "Venado Tuerto",
+        "Reconquista",
+        "Esperanza"
+    ],
+
+    "Santiago del Estero": [
+        "Santiago del Estero",
+        "La Banda",
+        "Termas de Río Hondo",
+        "Frías",
+        "Añatuya"
+    ],
+
+    "Tierra del Fuego": [
+        "Ushuaia",
+        "Río Grande",
+        "Tolhuin"
+    ],
+
+    "Tucumán": [
+        "San Miguel de Tucumán",
+        "Tafí Viejo",
+        "Yerba Buena",
+        "Concepción",
+        "Monteros"
+    ]
+}
+
 def generar_clientes():
     clientes = []
-    for i in range(1,2001):
+
+    for i in range(1, 2001):
+
+        provincia = random.choice(list(ubicaciones.keys()))
+        ciudad = random.choice(ubicaciones[provincia])
+
         clientes.append({
             "id_cliente": i,
             "nombre": fake.first_name(),
             "apellido": fake.last_name(),
-            "edad": random.randint(18,75),
-            "sexo": random.choice(["M","F"]),
-            "provincia": fake.province(),
-            "ciudad": fake.city(),
-            "fecha_alta": fake.date_between(start_date="-5y", end_date="today").strftime("%Y-%m-%d")
+            "edad": random.randint(18, 75),
+            "sexo": random.choice(["M", "F"]),
+            "provincia": provincia,
+            "ciudad": ciudad,
+            "fecha_alta": fake.date_between(
+                start_date="-5y",
+                end_date="today"
+            ).strftime("%Y-%m-%d")
         })
-        
+
     df = pd.DataFrame(clientes)
 
     df.to_csv(

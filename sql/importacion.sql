@@ -7,15 +7,15 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE './dataset/clientes.csv'
-INTO TABLE clientes
+LOAD DATA LOCAL INFILE './dataset/sucursales.csv'
+INTO TABLE sucursales
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE './dataset/empleados.csv'
-INTO TABLE empleados
+LOAD DATA LOCAL INFILE './dataset/clientes.csv'
+INTO TABLE clientes
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -28,8 +28,8 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
-LOAD DATA LOCAL INFILE './dataset/sucursales.csv'
-INTO TABLE sucursales
+LOAD DATA LOCAL INFILE './dataset/empleados.csv'
+INTO TABLE empleados
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'

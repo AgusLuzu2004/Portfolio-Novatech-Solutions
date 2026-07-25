@@ -1,0 +1,15 @@
+# --- Credenciales / configuración local (NUNCA subir) ---
+java/src/main/resources/db.properties
+
+# --- Maven / Java build ---
+java/target/
+*.class
+
+# --- IDE ---
+.vscode/
+.idea/
+*.iml
+
+# --- Sistema operativo ---
+.DS_Store
+Thumbs.db
