@@ -58,17 +58,46 @@ public class ReporteController {
 
         reporteService = new ReporteService();
 
-        cargarDashboard();
-
-        cargarGraficos();
-
         cargarCombos();
+
+        FiltroReporte filtroInicial = obtenerFiltroActual();
+
+        cargarDashboard(filtroInicial);
+
+        cargarGraficos(filtroInicial);
 
     }
 
-    private void cargarDashboard() {
+    private FiltroReporte obtenerFiltroActual() {
 
-        DashboardResumen dashboard = reporteService.getDashboardResumen();
+        Integer anio = null;
+        String anioSeleccionado = cbAnio.getValue();
+
+        if (anioSeleccionado != null && !anioSeleccionado.equals("Todos")) {
+            anio = Integer.parseInt(anioSeleccionado);
+        }
+
+        String provincia = valorOTodos(cbProvincia.getValue(), "Todas");
+        String categoria = valorOTodos(cbCategoria.getValue(), "Todas");
+        String sucursal = valorOTodos(cbSucursal.getValue(), "Todas");
+
+        return new FiltroReporte(anio, provincia, categoria, sucursal);
+
+    }
+
+    private String valorOTodos(String valor, String opcionTodos) {
+
+        if (valor == null || valor.equals(opcionTodos)) {
+            return null;
+        }
+
+        return valor;
+
+    }
+
+    private void cargarDashboard(FiltroReporte filtro) {
+
+        DashboardResumen dashboard = reporteService.getDashboardResumen(filtro);
 
         lblFacturacion.setText(String.format("$%,.2f",
                 dashboard.getFacturacionTotal()));
@@ -84,14 +113,14 @@ public class ReporteController {
 
     }
 
-    private void cargarVentasMensuales() {
+    private void cargarVentasMensuales(FiltroReporte filtro) {
 
         lineVentasMensuales.getData().clear();
 
         XYChart.Series<String, Number> serie = new XYChart.Series<>();
 
         for (VentaMensual venta :
-                reporteService.getVentasMensuales()) {
+                reporteService.getVentasMensuales(filtro)) {
 
             serie.getData().add(
 
@@ -111,7 +140,7 @@ public class ReporteController {
 
     }
 
-    private void cargarCategorias() {
+    private void cargarCategorias(FiltroReporte filtro) {
 
         barCategorias.getData().clear();
 
@@ -119,7 +148,7 @@ public class ReporteController {
 
         for (VentaCategoria categoria :
 
-                reporteService.getVentasPorCategoria()) {
+                reporteService.getVentasPorCategoria(filtro)) {
 
             serie.getData().add(
 
@@ -139,7 +168,7 @@ public class ReporteController {
 
     }
 
-    private void cargarTopProductos() {
+    private void cargarTopProductos(FiltroReporte filtro) {
 
         barProductos.getData().clear();
 
@@ -147,7 +176,7 @@ public class ReporteController {
 
         for (TopProducto producto :
 
-                reporteService.getTopProductos()) {
+                reporteService.getTopProductos(filtro)) {
 
             serie.getData().add(
 
@@ -167,7 +196,7 @@ public class ReporteController {
 
     }
 
-    private void cargarRanking() {
+    private void cargarRanking(FiltroReporte filtro) {
 
         barEmpleados.getData().clear();
 
@@ -175,7 +204,7 @@ public class ReporteController {
 
         for (RankingEmpleado empleado :
 
-                reporteService.getRankingEmpleados()) {
+                reporteService.getRankingEmpleados(filtro)) {
 
             serie.getData().add(
 
@@ -195,13 +224,13 @@ public class ReporteController {
 
     }
 
-    private void cargarProvincias() {
+    private void cargarProvincias(FiltroReporte filtro) {
 
         pieProvincias.getData().clear();
 
         for (VentaProvincia provincia :
 
-                reporteService.getVentasPorProvincia()) {
+                reporteService.getVentasPorProvincia(filtro)) {
 
             pieProvincias.getData().add(
 
@@ -219,13 +248,13 @@ public class ReporteController {
 
     }
 
-    private void cargarMediosPago() {
+    private void cargarMediosPago(FiltroReporte filtro) {
 
         pieMediosPago.getData().clear();
 
         for (MedioPagoReporte medio :
 
-                reporteService.getMediosPago()) {
+                reporteService.getMediosPago(filtro)) {
 
             pieMediosPago.getData().add(
 
@@ -243,19 +272,19 @@ public class ReporteController {
 
     }
 
-    private void cargarGraficos() {
+    private void cargarGraficos(FiltroReporte filtro) {
 
-        cargarVentasMensuales();
+        cargarVentasMensuales(filtro);
 
-        cargarCategorias();
+        cargarCategorias(filtro);
 
-        cargarTopProductos();
+        cargarTopProductos(filtro);
 
-        cargarRanking();
+        cargarRanking(filtro);
 
-        cargarProvincias();
+        cargarProvincias(filtro);
 
-        cargarMediosPago();
+        cargarMediosPago(filtro);
 
     }
 
@@ -288,18 +317,22 @@ public class ReporteController {
     @FXML
     private void actualizar() {
 
-        cargarDashboard();
+        FiltroReporte filtro = obtenerFiltroActual();
 
-        cargarGraficos();
+        cargarDashboard(filtro);
+
+        cargarGraficos(filtro);
 
     }
 
     @FXML
     private void filtrar() {
 
-        cargarDashboard();
+        FiltroReporte filtro = obtenerFiltroActual();
 
-        cargarGraficos();
+        cargarDashboard(filtro);
+
+        cargarGraficos(filtro);
 
     }
 }

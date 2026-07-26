@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.novatech.config.Conexion;
 import com.novatech.model.reporte.DashboardResumen;
+import com.novatech.model.reporte.FiltroReporte;
 import com.novatech.model.reporte.MedioPagoReporte;
 import com.novatech.model.reporte.RankingEmpleado;
 import com.novatech.model.reporte.TopProducto;
@@ -19,20 +20,54 @@ import com.novatech.model.reporte.VentaProvincia;
 
 public class ReporteDAO {
 
-    public double obtenerFacturacionTotal() {
+    private static final String FROM_JOINS =
+            " FROM ventas v " +
+            "JOIN productos p ON v.id_producto = p.id_producto " +
+            "JOIN categorias c ON p.id_categoria = c.id_categoria " +
+            "JOIN clientes cl ON v.id_cliente = cl.id_cliente " +
+            "JOIN empleados e ON v.id_empleado = e.id_empleado " +
+            "JOIN sucursales s ON e.id_sucursal = s.id_sucursal ";
 
-        String sql = "SELECT SUM(precio_unitario * cantidad * (1-descuento/100)) from ventas";
+    private static final String WHERE_FILTROS =
+            "WHERE (? IS NULL OR YEAR(v.fecha) = ?) " +
+            "AND (? IS NULL OR cl.provincia = ?) " +
+            "AND (? IS NULL OR c.nombre_categoria = ?) " +
+            "AND (? IS NULL OR s.nombre = ?)";
+
+    private void setearFiltros(PreparedStatement ps, FiltroReporte filtro) throws SQLException {
+
+        int i = 1;
+
+        ps.setObject(i++, filtro.getAnio());
+        ps.setObject(i++, filtro.getAnio());
+
+        ps.setString(i++, filtro.getProvincia());
+        ps.setString(i++, filtro.getProvincia());
+
+        ps.setString(i++, filtro.getCategoria());
+        ps.setString(i++, filtro.getCategoria());
+
+        ps.setString(i++, filtro.getSucursal());
+        ps.setString(i, filtro.getSucursal());
+
+    }
+
+    public double obtenerFacturacionTotal(FiltroReporte filtro) {
+
+        String sql = "SELECT SUM(v.precio_unitario * v.cantidad * (1-v.descuento/100))" +
+                FROM_JOINS + WHERE_FILTROS;
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            if (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                return rs.getDouble(1);
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
             }
 
         } catch (Exception e) {
@@ -43,20 +78,21 @@ public class ReporteDAO {
 
     }
 
-    public int obtenerCantidadVentas() {
+    public int obtenerCantidadVentas(FiltroReporte filtro) {
 
-        String sql = "SELECT COUNT(*) FROM ventas";
+        String sql = "SELECT COUNT(*)" + FROM_JOINS + WHERE_FILTROS;
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            if (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                return rs.getInt(1);
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (Exception e) {
@@ -67,20 +103,21 @@ public class ReporteDAO {
 
     }
 
-    public int obtenerClientesActivos() {
+    public int obtenerClientesActivos(FiltroReporte filtro) {
 
-        String sql = "SELECT COUNT(DISTINCT id_cliente) FROM ventas";
+        String sql = "SELECT COUNT(DISTINCT v.id_cliente)" + FROM_JOINS + WHERE_FILTROS;
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            if (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                return rs.getInt(1);
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (Exception e) {
@@ -91,20 +128,21 @@ public class ReporteDAO {
 
     }
 
-    public int obtenerProductosVendidos() {
+    public int obtenerProductosVendidos(FiltroReporte filtro) {
 
-        String sql = "SELECT SUM(cantidad) FROM ventas";
+        String sql = "SELECT SUM(v.cantidad)" + FROM_JOINS + WHERE_FILTROS;
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            if (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                return rs.getInt(1);
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (Exception e) {
@@ -115,25 +153,28 @@ public class ReporteDAO {
 
     }
 
-    public List<VentaMensual> obtenerVentasMensuales() {
+    public List<VentaMensual> obtenerVentasMensuales(FiltroReporte filtro) {
 
         List<VentaMensual> lista = new ArrayList<>();
 
-        String sql = "SELECT MONTH(fecha) AS mes, SUM(precio_unitario*cantidad*(1-descuento/100)) AS total FROM ventas GROUP BY MONTH(fecha) ORDER BY MONTH(fecha)";
+        String sql = "SELECT MONTH(v.fecha) AS mes, SUM(v.precio_unitario*v.cantidad*(1-v.descuento/100)) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY MONTH(v.fecha) ORDER BY MONTH(v.fecha)";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new VentaMensual(
-                        String.valueOf(rs.getInt("mes")),
-                        rs.getDouble("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new VentaMensual(
+                            String.valueOf(rs.getInt("mes")),
+                            rs.getDouble("total")
+                    ));
+                }
             }
 
         } catch (Exception e) {
@@ -144,25 +185,28 @@ public class ReporteDAO {
 
     }
 
-    public List<TopProducto> obtenerTopProductos() {
+    public List<TopProducto> obtenerTopProductos(FiltroReporte filtro) {
 
         List<TopProducto> lista = new ArrayList<>();
 
-        String sql = "SELECT p.nombre, SUM(v.cantidad) AS total FROM ventas v JOIN productos p ON p.id_producto = v.id_producto GROUP BY p.nombre ORDER BY total DESC LIMIT 10";
+        String sql = "SELECT p.nombre, SUM(v.cantidad) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY p.nombre ORDER BY total DESC LIMIT 10";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new TopProducto(
-                        rs.getString("nombre"),
-                        rs.getInt("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new TopProducto(
+                            rs.getString("nombre"),
+                            rs.getInt("total")
+                    ));
+                }
             }
 
         } catch (Exception e) {
@@ -173,25 +217,28 @@ public class ReporteDAO {
 
     }
 
-    public List<VentaCategoria> obtenerVentasPorCategoria() {
+    public List<VentaCategoria> obtenerVentasPorCategoria(FiltroReporte filtro) {
 
         List<VentaCategoria> lista = new ArrayList<>();
 
-        String sql = "SELECT c.nombre_categoria, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total FROM ventas v JOIN productos p ON v.id_producto = p.id_producto JOIN categorias c ON p.id_categoria = c.id_categoria GROUP BY c.nombre_categoria ORDER BY total DESC";
+        String sql = "SELECT c.nombre_categoria, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY c.nombre_categoria ORDER BY total DESC";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new VentaCategoria(
-                        rs.getString("nombre_categoria"),
-                        rs.getDouble("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new VentaCategoria(
+                            rs.getString("nombre_categoria"),
+                            rs.getDouble("total")
+                    ));
+                }
             }
 
         } catch (Exception e) {
@@ -202,25 +249,28 @@ public class ReporteDAO {
 
     }
 
-    public List<VentaProvincia> obtenerVentasPorProvincia() {
+    public List<VentaProvincia> obtenerVentasPorProvincia(FiltroReporte filtro) {
 
         List<VentaProvincia> lista = new ArrayList<>();
 
-        String sql = "SELECT c.provincia, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total FROM ventas v JOIN clientes c ON v.id_cliente = c.id_cliente GROUP BY c.provincia ORDER BY total DESC";
+        String sql = "SELECT cl.provincia, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY cl.provincia ORDER BY total DESC";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new VentaProvincia(
-                        rs.getString("provincia"),
-                        rs.getDouble("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new VentaProvincia(
+                            rs.getString("provincia"),
+                            rs.getDouble("total")
+                    ));
+                }
             }
 
         } catch (Exception e) {
@@ -231,25 +281,28 @@ public class ReporteDAO {
 
     }
 
-    public List<RankingEmpleado> obtenerRankingEmpleados() {
+    public List<RankingEmpleado> obtenerRankingEmpleados(FiltroReporte filtro) {
 
         List<RankingEmpleado> lista = new ArrayList<>();
 
-        String sql = "SELECT CONCAT(e.nombre,' ',e.apellido) AS empleado, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total FROM ventas v JOIN empleados e ON v.id_empleado = e.id_empleado GROUP BY e.id_empleado ORDER BY total DESC";
+        String sql = "SELECT CONCAT(e.nombre,' ',e.apellido) AS empleado, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY e.id_empleado ORDER BY total DESC";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new RankingEmpleado(
-                        rs.getString("empleado"),
-                        rs.getDouble("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new RankingEmpleado(
+                            rs.getString("empleado"),
+                            rs.getDouble("total")
+                    ));
+                }
             }
 
         } catch (Exception e) {
@@ -260,25 +313,28 @@ public class ReporteDAO {
 
     }
 
-    public List<MedioPagoReporte> obtenerMediosPago() {
+    public List<MedioPagoReporte> obtenerMediosPago(FiltroReporte filtro) {
 
         List<MedioPagoReporte> lista = new ArrayList<>();
 
-        String sql = "SELECT medio_pago, COUNT(*) AS cantidad FROM ventas GROUP BY medio_pago ORDER BY cantidad DESC";
+        String sql = "SELECT v.medio_pago, COUNT(*) AS cantidad" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY v.medio_pago ORDER BY cantidad DESC";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new MedioPagoReporte(
-                        rs.getString("medio_pago"),
-                        rs.getInt("cantidad")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new MedioPagoReporte(
+                            rs.getString("medio_pago"),
+                            rs.getInt("cantidad")
+                    ));
+                }
             }
 
         } catch (SQLException e) {
@@ -289,25 +345,28 @@ public class ReporteDAO {
 
     }
 
-    public List<VentaAnual> obtenerComparacionAnual() {
+    public List<VentaAnual> obtenerComparacionAnual(FiltroReporte filtro) {
 
         List<VentaAnual> lista = new ArrayList<>();
 
-        String sql = "SELECT YEAR(fecha) AS anio, SUM(precio_unitario * cantidad * (1 - descuento / 100)) AS total FROM ventas GROUP BY YEAR(fecha) ORDER BY anio";
+        String sql = "SELECT YEAR(v.fecha) AS anio, SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)) AS total" +
+                FROM_JOINS + WHERE_FILTROS +
+                " GROUP BY YEAR(v.fecha) ORDER BY anio";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            while (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                lista.add(new VentaAnual(
-                        rs.getInt("anio"),
-                        rs.getDouble("total")
-                ));
-
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new VentaAnual(
+                            rs.getInt("anio"),
+                            rs.getDouble("total")
+                    ));
+                }
             }
 
         } catch (SQLException e) {
@@ -318,25 +377,28 @@ public class ReporteDAO {
 
     }
 
-    public DashboardResumen obtenerDashboardResumen() {
+    public DashboardResumen obtenerDashboardResumen(FiltroReporte filtro) {
 
-        String sql = "SELECT COALESCE(SUM(precio_unitario * cantidad * (1 - descuento / 100)), 0) AS facturacion, COUNT(*) AS ventas, COUNT(DISTINCT id_cliente) AS clientes, COALESCE(SUM(cantidad), 0) AS productos FROM ventas";
+        String sql = "SELECT COALESCE(SUM(v.precio_unitario * v.cantidad * (1 - v.descuento / 100)), 0) AS facturacion, " +
+                "COUNT(*) AS ventas, COUNT(DISTINCT v.id_cliente) AS clientes, COALESCE(SUM(v.cantidad), 0) AS productos" +
+                FROM_JOINS + WHERE_FILTROS;
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
         ) {
 
-            if (rs.next()) {
+            setearFiltros(ps, filtro);
 
-                return new DashboardResumen(
-                        rs.getDouble("facturacion"),
-                        rs.getInt("ventas"),
-                        rs.getInt("clientes"),
-                        rs.getInt("productos")
-                );
-
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new DashboardResumen(
+                            rs.getDouble("facturacion"),
+                            rs.getInt("ventas"),
+                            rs.getInt("clientes"),
+                            rs.getInt("productos")
+                    );
+                }
             }
 
         } catch (SQLException e) {

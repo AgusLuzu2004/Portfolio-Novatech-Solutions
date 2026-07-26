@@ -13,52 +13,52 @@ public class ReporteService {
         reporteDAO = new ReporteDAO();
     }
 
-    public double getFacturacionTotal() {
-        return reporteDAO.obtenerFacturacionTotal();
+    public double getFacturacionTotal(FiltroReporte filtro) {
+        return reporteDAO.obtenerFacturacionTotal(filtro);
     }
 
-    public int getCantidadVentas() {
-        return reporteDAO.obtenerCantidadVentas();
+    public int getCantidadVentas(FiltroReporte filtro) {
+        return reporteDAO.obtenerCantidadVentas(filtro);
     }
 
-    public int getClientesActivos() {
-        return reporteDAO.obtenerClientesActivos();
+    public int getClientesActivos(FiltroReporte filtro) {
+        return reporteDAO.obtenerClientesActivos(filtro);
     }
 
-    public int getProductosVendidos() {
-        return reporteDAO.obtenerProductosVendidos();
+    public int getProductosVendidos(FiltroReporte filtro) {
+        return reporteDAO.obtenerProductosVendidos(filtro);
     }
 
-    public DashboardResumen getDashboardResumen() {
-        return reporteDAO.obtenerDashboardResumen();
+    public DashboardResumen getDashboardResumen(FiltroReporte filtro) {
+        return reporteDAO.obtenerDashboardResumen(filtro);
     }
 
-    public List<VentaMensual> getVentasMensuales() {
-        return reporteDAO.obtenerVentasMensuales();
+    public List<VentaMensual> getVentasMensuales(FiltroReporte filtro) {
+        return reporteDAO.obtenerVentasMensuales(filtro);
     }
 
-    public List<TopProducto> getTopProductos() {
-        return reporteDAO.obtenerTopProductos();
+    public List<TopProducto> getTopProductos(FiltroReporte filtro) {
+        return reporteDAO.obtenerTopProductos(filtro);
     }
 
-    public List<VentaCategoria> getVentasPorCategoria() {
-        return reporteDAO.obtenerVentasPorCategoria();
+    public List<VentaCategoria> getVentasPorCategoria(FiltroReporte filtro) {
+        return reporteDAO.obtenerVentasPorCategoria(filtro);
     }
 
-    public List<VentaProvincia> getVentasPorProvincia() {
-        return reporteDAO.obtenerVentasPorProvincia();
+    public List<VentaProvincia> getVentasPorProvincia(FiltroReporte filtro) {
+        return reporteDAO.obtenerVentasPorProvincia(filtro);
     }
 
-    public List<RankingEmpleado> getRankingEmpleados() {
-        return reporteDAO.obtenerRankingEmpleados();
+    public List<RankingEmpleado> getRankingEmpleados(FiltroReporte filtro) {
+        return reporteDAO.obtenerRankingEmpleados(filtro);
     }
 
-    public List<MedioPagoReporte> getMediosPago() {
-        return reporteDAO.obtenerMediosPago();
+    public List<MedioPagoReporte> getMediosPago(FiltroReporte filtro) {
+        return reporteDAO.obtenerMediosPago(filtro);
     }
 
-    public List<VentaAnual> getComparacionAnual() {
-        return reporteDAO.obtenerComparacionAnual();
+    public List<VentaAnual> getComparacionAnual(FiltroReporte filtro) {
+        return reporteDAO.obtenerComparacionAnual(filtro);
     }
 
     public List<Integer> getAnios() {
