@@ -421,7 +421,7 @@ public class ReporteDAO {
 
         List<String> sucursales = new ArrayList<>();
 
-        String sql = "SELECT nombre_sucursal FROM sucursales ORDER BY nombre_sucursal";
+        String sql = "SELECT nombre FROM sucursales ORDER BY nombre";
 
         try (
             Connection conexion = Conexion.conectar();
@@ -430,7 +430,7 @@ public class ReporteDAO {
         ) {
 
             while (rs.next()) {
-                sucursales.add(rs.getString("nombre_sucursal"));
+                sucursales.add(rs.getString("nombre"));
             }
 
         } catch (SQLException e) {

@@ -78,7 +78,7 @@ CREATE TABLE empleados (
 
 CREATE TABLE ventas (
 
-    id_venta INT PRIMARY KEY,
+    id_venta INT PRIMARY KEY AUTO_INCREMENT,
 
     fecha DATE,
 

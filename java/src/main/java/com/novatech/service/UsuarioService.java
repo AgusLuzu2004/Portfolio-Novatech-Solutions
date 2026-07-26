@@ -1,6 +1,6 @@
 package com.novatech.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.novatech.dao.AuditoriaDAO;
@@ -46,7 +46,7 @@ public class UsuarioService {
                 usuarioBD.getUsuario(),
                 "LOGIN",
                 "Usuarios",
-                LocalDate.now()
+                LocalDateTime.now()
         ));
 
         return usuarioBD;
@@ -97,7 +97,7 @@ public class UsuarioService {
                     Sesion.getUsuario().getUsuario(),
                     "INSERT",
                     "Usuarios",
-                    LocalDate.now()
+                    LocalDateTime.now()
             ));
 
         }
@@ -125,7 +125,7 @@ public class UsuarioService {
                     Sesion.getUsuario().getUsuario(),
                     "UPDATE",
                     "Usuarios",
-                    LocalDate.now()
+                    LocalDateTime.now()
             ));
 
         }
@@ -167,7 +167,7 @@ public class UsuarioService {
                     usuario.getUsuario(),
                     "UPDATE",
                     "Usuarios",
-                    LocalDate.now()
+                    LocalDateTime.now()
             ));
 
         }
@@ -189,7 +189,7 @@ public class UsuarioService {
                     Sesion.getUsuario().getUsuario(),
                     "ACTIVAR",
                     "Usuarios",
-                    LocalDate.now()
+                    LocalDateTime.now()
             ));
 
         }
@@ -219,7 +219,7 @@ public class UsuarioService {
                     Sesion.getUsuario().getUsuario(),
                     "DESACTIVAR",
                     "Usuarios",
-                    LocalDate.now()
+                    LocalDateTime.now()
             ));
 
         }

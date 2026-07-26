@@ -1,6 +1,6 @@
 package com.novatech.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Auditoria {
 
@@ -8,13 +8,13 @@ public class Auditoria {
     private String usuario;
     private String accion;
     private String modulo;
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
     public Auditoria() {
     
     }
 
-    public Auditoria(int idAuditoria, String usuario, String accion, String modulo, LocalDate fecha) {
+    public Auditoria(int idAuditoria, String usuario, String accion, String modulo, LocalDateTime fecha) {
         this.idAuditoria = idAuditoria;
         this.usuario = usuario;
         this.accion = accion;
@@ -54,11 +54,11 @@ public class Auditoria {
         this.modulo = modulo;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

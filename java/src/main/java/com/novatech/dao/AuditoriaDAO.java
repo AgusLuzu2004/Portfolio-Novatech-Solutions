@@ -1,11 +1,11 @@
 package com.novatech.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class AuditoriaDAO {
             ps.setString(1, auditoria.getUsuario());
             ps.setString(2, auditoria.getAccion());
             ps.setString(3, auditoria.getModulo());
-            ps.setDate(4, Date.valueOf(auditoria.getFecha()));
+            ps.setTimestamp(4, Timestamp.valueOf(auditoria.getFecha()));
 
             ps.executeUpdate();
 
@@ -51,16 +51,7 @@ public class AuditoriaDAO {
         ) {
 
             while (rs.next()) {
-
-                Auditoria auditoria = new Auditoria();
-
-                auditoria.setIdAuditoria(rs.getInt("id_auditoria"));
-                auditoria.setUsuario(rs.getString("usuario"));
-                auditoria.setAccion(rs.getString("accion"));
-                auditoria.setModulo(rs.getString("modulo"));
-                auditoria.setFecha(rs.getDate("fecha").toLocalDate());
-
-                auditorias.add(auditoria);
+                auditorias.add(mapearFila(rs));
             }
 
         } catch (SQLException e) {
@@ -83,17 +74,10 @@ public class AuditoriaDAO {
 
             ps.setString(1, usuario);
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Auditoria auditoria = new Auditoria();
-
-                auditoria.setIdAuditoria(rs.getInt("id_auditoria"));
-                auditoria.setUsuario(rs.getString("usuario"));
-                auditoria.setAccion(rs.getString("accion"));
-                auditoria.setModulo(rs.getString("modulo"));
-                auditoria.setFecha(rs.getDate("fecha").toLocalDate());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    auditorias.add(mapearFila(rs));
+                }
             }
 
         } catch (SQLException e) {
@@ -117,17 +101,10 @@ public class AuditoriaDAO {
 
             ps.setString(1, modulo);
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Auditoria auditoria = new Auditoria();
-
-                auditoria.setIdAuditoria(rs.getInt("id_auditoria"));
-                auditoria.setUsuario(rs.getString("usuario"));
-                auditoria.setAccion(rs.getString("accion"));
-                auditoria.setModulo(rs.getString("modulo"));
-                auditoria.setFecha(rs.getDate("fecha").toLocalDate());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    auditorias.add(mapearFila(rs));
+                }
             }
 
         } catch (SQLException e) {
@@ -138,31 +115,24 @@ public class AuditoriaDAO {
 
     }
 
-    public List<Auditoria> buscarPorFecha(LocalDate inicio, LocalDate fin) {
+    public List<Auditoria> buscarPorFecha(LocalDateTime inicio, LocalDateTime fin) {
 
         List<Auditoria> auditorias = new ArrayList<>();
 
-        String sql = "SELECT * FROM auditoria WHERE DATE (fecha) BETWEEN ? AND ?";
+        String sql = "SELECT * FROM auditoria WHERE fecha BETWEEN ? AND ?";
 
         try (
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
         ) {
 
-            ps.setDate(1, Date.valueOf(inicio));
-            ps.setDate(2, Date.valueOf(fin));
+            ps.setTimestamp(1, Timestamp.valueOf(inicio));
+            ps.setTimestamp(2, Timestamp.valueOf(fin));
 
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                Auditoria auditoria = new Auditoria();
-
-                auditoria.setIdAuditoria(rs.getInt("id_auditoria"));
-                auditoria.setUsuario(rs.getString("usuario"));
-                auditoria.setAccion(rs.getString("accion"));
-                auditoria.setModulo(rs.getString("modulo"));
-                auditoria.setFecha(rs.getDate("fecha").toLocalDate());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    auditorias.add(mapearFila(rs));
+                }
             }
 
         } catch (SQLException e) {
@@ -172,4 +142,19 @@ public class AuditoriaDAO {
         return auditorias;
 
     }
+
+    private Auditoria mapearFila(ResultSet rs) throws SQLException {
+
+        Auditoria auditoria = new Auditoria();
+
+        auditoria.setIdAuditoria(rs.getInt("id"));
+        auditoria.setUsuario(rs.getString("usuario"));
+        auditoria.setAccion(rs.getString("accion"));
+        auditoria.setModulo(rs.getString("modulo"));
+        auditoria.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+
+        return auditoria;
+
+    }
+
 }

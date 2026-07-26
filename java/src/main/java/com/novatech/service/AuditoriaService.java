@@ -1,6 +1,6 @@
 package com.novatech.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.novatech.dao.AuditoriaDAO;
@@ -18,11 +18,10 @@ public class AuditoriaService {
 
         Auditoria auditoria = new Auditoria();
 
-        auditoria.setIdAuditoria(usuario.getIdUsuario());
         auditoria.setUsuario(usuario.getUsuario());
         auditoria.setAccion(accion);
         auditoria.setModulo(modulo);
-        auditoria.setFecha(LocalDate.now());
+        auditoria.setFecha(LocalDateTime.now());
 
         auditoriaDAO.registrar(auditoria);
 
@@ -46,7 +45,7 @@ public class AuditoriaService {
 
     }
 
-    public List<Auditoria> buscarPorFechas(LocalDate inicio, LocalDate fin) {
+    public List<Auditoria> buscarPorFechas(LocalDateTime inicio, LocalDateTime fin) {
 
         return auditoriaDAO.buscarPorFecha(inicio, fin);
 

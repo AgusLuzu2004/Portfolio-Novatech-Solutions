@@ -98,7 +98,10 @@ public class AuditoriaController {
             listaAuditoria.addAll(auditoriaService.buscarPorModulo(modulo));
         }
         if (inicio != null && fin != null) {
-            listaAuditoria.addAll(auditoriaService.buscarPorFechas(inicio, fin));
+            listaAuditoria.addAll(auditoriaService.buscarPorFechas(
+                    inicio.atStartOfDay(),
+                    fin.atTime(23, 59, 59)
+            ));
         }
 
         tabla.setItems(listaAuditoria);
