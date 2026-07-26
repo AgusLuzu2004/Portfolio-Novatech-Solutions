@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -85,13 +86,36 @@ public class ClienteFormularioController implements Initializable {
     @FXML
     private void guardarCliente() {
 
-        if (cliente == null) {
+        try {
 
-            clienteService.guardarCliente(cliente);
+            if (cliente == null) {
+                cliente = new Cliente();
+            }
 
-        }
-        else {
-            clienteService.actualizarCliente(cliente);
+            cliente.setNombre(txtNombre.getText());
+            cliente.setApellido(txtApellido.getText());
+            cliente.setEdad(Integer.parseInt(txtEdad.getText()));
+            cliente.setSexo(cmbSexo.getValue());
+            cliente.setProvincia(cmbProvincia.getValue());
+            cliente.setCiudad(txtCiudad.getText());
+            cliente.setFechaAlta(dpFechaAlta.getValue());
+
+            if (cliente.getIdCliente() == 0) {
+                clienteService.guardarCliente(cliente);
+            } else {
+                clienteService.actualizarCliente(cliente);
+            }
+
+            cerrarVentana();
+
+        } catch (NumberFormatException e) {
+
+            mostrarError("La edad debe ser un número válido.");
+
+        } catch (Exception e) {
+
+            mostrarError(e.getMessage());
+
         }
 
     }
@@ -126,6 +150,18 @@ public class ClienteFormularioController implements Initializable {
         cmbProvincia.getItems().addAll(
                 clienteService.listarProvincias()
         );
+
+    }
+
+    private void mostrarError(String mensaje) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setHeaderText("Error");
+
+        alert.setContentText(mensaje);
+
+        alert.showAndWait();
 
     }
 

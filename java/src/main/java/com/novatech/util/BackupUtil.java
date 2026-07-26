@@ -1,15 +1,13 @@
 package com.novatech.util;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.novatech.config.DbConfig;
 
 public class BackupUtil {
-
-    // Configuración de la base de datos
-    private static final String HOST = "localhost";
-    private static final String PUERTO = "3306";
-    private static final String BASE_DATOS = "novatech";
-    private static final String USUARIO = "root";
-    private static final String PASSWORD = "tu_password";
 
     private BackupUtil() {
     }
@@ -19,11 +17,11 @@ public class BackupUtil {
         ProcessBuilder processBuilder = new ProcessBuilder(
 
                 "mysqldump",
-                "-h", HOST,
-                "-P", PUERTO,
-                "-u", USUARIO,
-                "--password=" + PASSWORD,
-                BASE_DATOS,
+                "-h", DbConfig.getHost(),
+                "-P", DbConfig.getPuerto(),
+                "-u", DbConfig.getUsuario(),
+                "--password=" + DbConfig.getPassword(),
+                DbConfig.getBaseDatos(),
                 "--result-file=" + rutaDestino
 
         );
@@ -37,15 +35,15 @@ public class BackupUtil {
         ProcessBuilder processBuilder = new ProcessBuilder(
 
                 "mysql",
-                "-h", HOST,
-                "-P", PUERTO,
-                "-u", USUARIO,
-                "--password=" + PASSWORD,
-                BASE_DATOS
+                "-h", DbConfig.getHost(),
+                "-P", DbConfig.getPuerto(),
+                "-u", DbConfig.getUsuario(),
+                "--password=" + DbConfig.getPassword(),
+                DbConfig.getBaseDatos()
 
         );
 
-        processBuilder.redirectInput(new java.io.File(archivoBackup));
+        processBuilder.redirectInput(new File(archivoBackup));
 
         ejecutarProceso(processBuilder, "Backup restaurado correctamente.");
 
@@ -59,22 +57,32 @@ public class BackupUtil {
 
             Process process = processBuilder.start();
 
-            int codigo = process.waitFor();
+            StringBuilder salida = new StringBuilder();
 
-            if (codigo == 0) {
+            try (BufferedReader lector = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
 
-                System.out.println(mensajeExito);
+                String linea;
 
-            } else {
-
-                throw new RuntimeException("El proceso terminó con código: " + codigo);
+                while ((linea = lector.readLine()) != null) {
+                    salida.append(linea).append(System.lineSeparator());
+                }
 
             }
 
+            int codigo = process.waitFor();
+
+            if (codigo == 0) {
+                System.out.println(mensajeExito);
+            } else {
+                throw new RuntimeException(
+                        "El proceso terminó con código " + codigo +
+                        (salida.length() > 0 ? ": " + salida : "")
+                );
+            }
+
         } catch (IOException | InterruptedException e) {
-
-            throw new RuntimeException("Error ejecutando el proceso.", e);
-
+            throw new RuntimeException("Error ejecutando el proceso: " + e.getMessage(), e);
         }
 
     }

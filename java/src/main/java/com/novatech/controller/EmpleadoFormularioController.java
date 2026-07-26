@@ -1,12 +1,15 @@
 package com.novatech.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 import com.novatech.model.Empleado;
 import com.novatech.service.EmpleadoService;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -61,14 +64,32 @@ public class EmpleadoFormularioController {
     @FXML
     private void guardarEmpleado() {
 
-        if (empleado == null) {
+        try {
 
-            empleadoService.guardarEmpleado(empleado);
+            if (empleado == null) {
+                empleado = new Empleado();
+            }
 
-        }
-        else {
+            empleado.setNombre(txtNombre.getText());
+            empleado.setApellido(txtApellido.getText());
+            empleado.setIdSucursal(cmbSucursal.getValue());
+            empleado.setFechaIngreso(LocalDate.parse(txtFechaIngreso.getText()));
 
-            empleadoService.actualizarEmpleado(empleado);
+            if (empleado.getIdEmpleado() == 0) {
+                empleadoService.guardarEmpleado(empleado);
+            } else {
+                empleadoService.actualizarEmpleado(empleado);
+            }
+
+            cerrarVentana();
+
+        } catch (DateTimeParseException e) {
+
+            mostrarError("La fecha de ingreso debe tener el formato AAAA-MM-DD.");
+
+        } catch (Exception e) {
+
+            mostrarError(e.getMessage());
 
         }
 
@@ -92,6 +113,18 @@ public class EmpleadoFormularioController {
     private void cargarDatos() {
 
         cmbSucursal.getItems().addAll(1, 2, 3, 4, 5);
+    }
+
+    private void mostrarError(String mensaje) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setHeaderText("Error");
+
+        alert.setContentText(mensaje);
+
+        alert.showAndWait();
+
     }
 
 }

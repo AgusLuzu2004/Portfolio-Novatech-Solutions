@@ -30,11 +30,20 @@ public class BackupController {
 
         if (archivo != null) {
 
-            backupService.crearBackup(
-                    archivo.getAbsolutePath()
-            );
+            try {
 
-            mostrar("Backup creado correctamente.");
+                backupService.crearBackup(
+                        archivo.getAbsolutePath()
+                );
+
+                mostrar(Alert.AlertType.INFORMATION, "Backup creado correctamente.");
+
+            } catch (Exception e) {
+
+                mostrar(Alert.AlertType.ERROR,
+                        "No se pudo crear el backup:" + System.lineSeparator() + e.getMessage());
+
+            }
 
         }
 
@@ -58,19 +67,28 @@ public class BackupController {
 
         if (archivo != null) {
 
-            backupService.restaurarBackup(
-                    archivo.getAbsolutePath()
-            );
+            try {
 
-            mostrar("Backup restaurado correctamente.");
+                backupService.restaurarBackup(
+                        archivo.getAbsolutePath()
+                );
+
+                mostrar(Alert.AlertType.INFORMATION, "Backup restaurado correctamente.");
+
+            } catch (Exception e) {
+
+                mostrar(Alert.AlertType.ERROR,
+                        "No se pudo restaurar el backup:" + System.lineSeparator() + e.getMessage());
+
+            }
 
         }
 
     }
 
-    private void mostrar(String mensaje) {
+    private void mostrar(Alert.AlertType tipo, String mensaje) {
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(tipo);
 
         alert.setHeaderText(null);
 

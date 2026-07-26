@@ -8,9 +8,22 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.novatech.model.DetalleVenta;
+import com.novatech.model.Venta;
+
 public class ExcelUtil {
+
+    private static final DateTimeFormatter FORMATO_FECHA =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    private static final String[] COLUMNAS_VENTAS = {
+            "Id Venta", "Fecha", "Cliente", "Empleado", "Producto",
+            "Cantidad", "Precio Unitario", "Subtotal", "Descuento (%)",
+            "Total con descuento", "Medio de Pago", "Canal"
+    };
 
     private ExcelUtil() {
     }
@@ -130,6 +143,107 @@ public class ExcelUtil {
             throw new RuntimeException("No fue posible acceder a los datos.", e);
 
         }
+
+    }
+
+    public static void exportarVentas(List<Venta> ventas, String ruta) {
+
+        if (ventas == null || ventas.isEmpty()) {
+            throw new IllegalArgumentException("No hay ventas para exportar.");
+        }
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+
+            Sheet sheet = workbook.createSheet("Ventas");
+
+            CellStyle estiloTitulo = workbook.createCellStyle();
+
+            Font fuenteTitulo = workbook.createFont();
+            fuenteTitulo.setBold(true);
+            fuenteTitulo.setColor(IndexedColors.WHITE.getIndex());
+
+            estiloTitulo.setFont(fuenteTitulo);
+            estiloTitulo.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            estiloTitulo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+            Row filaTitulos = sheet.createRow(0);
+
+            for (int i = 0; i < COLUMNAS_VENTAS.length; i++) {
+                Cell celda = filaTitulos.createCell(i);
+                celda.setCellValue(COLUMNAS_VENTAS[i]);
+                celda.setCellStyle(estiloTitulo);
+            }
+
+            int numeroFila = 1;
+
+            for (Venta venta : ventas) {
+
+                List<DetalleVenta> detalles = venta.getDetalles();
+
+                if (detalles == null || detalles.isEmpty()) {
+                    continue;
+                }
+
+                for (DetalleVenta detalle : detalles) {
+
+                    Row fila = sheet.createRow(numeroFila++);
+
+                    int col = 0;
+
+                    fila.createCell(col++).setCellValue(venta.getIdVenta());
+                    fila.createCell(col++).setCellValue(
+                            venta.getFecha() != null ? venta.getFecha().format(FORMATO_FECHA) : ""
+                    );
+                    fila.createCell(col++).setCellValue(nombreCompletoCliente(venta));
+                    fila.createCell(col++).setCellValue(nombreCompletoEmpleado(venta));
+                    fila.createCell(col++).setCellValue(
+                            detalle.getProducto() != null ? detalle.getProducto().getNombre() : ""
+                    );
+                    fila.createCell(col++).setCellValue(detalle.getCantidad());
+                    fila.createCell(col++).setCellValue(detalle.getPrecioUnitario());
+                    fila.createCell(col++).setCellValue(detalle.getSubtotal());
+                    fila.createCell(col++).setCellValue(venta.getDescuento());
+                    fila.createCell(col++).setCellValue(
+                            detalle.getSubtotal() * (1 - venta.getDescuento() / 100)
+                    );
+                    fila.createCell(col++).setCellValue(venta.getMedioPago());
+                    fila.createCell(col).setCellValue(venta.getCanal());
+
+                }
+
+            }
+
+            for (int i = 0; i < COLUMNAS_VENTAS.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(ruta)) {
+                workbook.write(fos);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al generar el archivo Excel.", e);
+        }
+
+    }
+
+    private static String nombreCompletoCliente(Venta venta) {
+
+        if (venta.getCliente() == null) {
+            return "";
+        }
+
+        return venta.getCliente().getNombre() + " " + venta.getCliente().getApellido();
+
+    }
+
+    private static String nombreCompletoEmpleado(Venta venta) {
+
+        if (venta.getEmpleado() == null) {
+            return "";
+        }
+
+        return venta.getEmpleado().getNombre() + " " + venta.getEmpleado().getApellido();
 
     }
 

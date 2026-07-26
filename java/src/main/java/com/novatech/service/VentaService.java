@@ -50,6 +50,10 @@ public class VentaService {
         if (venta.getDescuento() < 0) {
             throw new IllegalArgumentException("El descuento no puede ser negativo.");
         }
+
+        if (venta.getDetalles() == null || venta.getDetalles().isEmpty()) {
+            throw new IllegalArgumentException("Debe agregar al menos un producto a la venta.");
+        }
     }
 
     private void calcularSubtotales(Venta venta) {

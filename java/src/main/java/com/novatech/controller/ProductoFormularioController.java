@@ -7,6 +7,7 @@ import com.novatech.model.Producto;
 import com.novatech.service.ProductoService;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -66,13 +67,34 @@ public class ProductoFormularioController {
     @FXML
     private void guardarProducto() {
 
-        if (producto == null) {
+        try {
 
-            productoService.guardarProducto(producto);
+            if (producto == null) {
+                producto = new Producto();
+            }
 
-        }
-        else {
-            productoService.actualizarProducto(producto);
+            producto.setNombre(txtNombre.getText());
+            producto.setMarca(cmbMarca.getValue());
+            producto.setIdCategoria(cmbCategoria.getValue());
+            producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
+            producto.setStock(Integer.parseInt(txtStock.getText()));
+
+            if (producto.getIdProducto() == 0) {
+                productoService.guardarProducto(producto);
+            } else {
+                productoService.actualizarProducto(producto);
+            }
+
+            cerrarVentana();
+
+        } catch (NumberFormatException e) {
+
+            mostrarError("El precio y el stock deben ser números válidos.");
+
+        } catch (Exception e) {
+
+            mostrarError(e.getMessage());
+
         }
 
     }
@@ -93,7 +115,7 @@ public class ProductoFormularioController {
     }
 
     private void cargarDatos() {
-        
+
         cmbMarca.getItems().addAll(
                 "Marca A",
                 "Marca B",
@@ -101,8 +123,20 @@ public class ProductoFormularioController {
         );
 
         cmbCategoria.getItems().addAll(
-                1, 2, 3, 4, 5
+                1, 2, 3, 4, 5, 6
         );
+    }
+
+    private void mostrarError(String mensaje) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+        alert.setHeaderText("Error");
+
+        alert.setContentText(mensaje);
+
+        alert.showAndWait();
+
     }
 
 }

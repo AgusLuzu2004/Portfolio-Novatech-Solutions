@@ -1,9 +1,10 @@
 package com.novatech.service;
 
+import java.util.List;
+
+import com.novatech.model.Venta;
 import com.novatech.util.ExcelUtil;
 import com.novatech.util.PDFUtil;
-
-import java.util.List;
 
 public class ExportacionService {
 
@@ -27,23 +28,15 @@ public class ExportacionService {
 
     }
 
-    public void exportarVentasExcel(List<?> ventas, String ruta) {
+    public void exportarVentasExcel(List<Venta> ventas, String ruta) {
 
-        if (ventas == null || ventas.isEmpty()) {
-            throw new IllegalArgumentException("No hay ventas para exportar.");
-        }
-
-        ExcelUtil.exportar(ventas, "Ventas", ruta);
+        ExcelUtil.exportarVentas(ventas, ruta);
 
     }
 
-    public void exportarVentasPDF(List<?> ventas, String ruta) {
+    public void exportarVentasPDF(List<Venta> ventas, String ruta) {
 
-        if (ventas == null || ventas.isEmpty()) {
-            throw new IllegalArgumentException("No hay ventas para exportar.");
-        }
-
-        PDFUtil.generarReporte(ventas, "Ventas", ruta);
+        PDFUtil.generarReporteVentas(ventas, ruta);
 
     }
 

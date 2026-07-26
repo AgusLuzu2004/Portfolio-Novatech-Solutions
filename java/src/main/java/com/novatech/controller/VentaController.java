@@ -228,9 +228,13 @@ public class VentaController {
             venta.setCanal(
                     cmbCanal.getValue());
 
-            venta.setDescuento(
-                    Double.parseDouble(
-                            txtDescuento.getText()));
+            double descuento = 0;
+
+            if (!txtDescuento.getText().isBlank()) {
+                descuento = Double.parseDouble(txtDescuento.getText());
+            }
+
+            venta.setDescuento(descuento);
 
             venta.setDetalles(
                     new ArrayList<>(detalles));
@@ -238,12 +242,17 @@ public class VentaController {
             boolean ok =
                     ventaService.registrarVenta(venta);
 
-            if(ok){
+            if (ok) {
 
                 mostrarMensaje(
                         "Venta registrada correctamente.");
 
                 limpiarFormulario();
+
+            } else {
+
+                mostrarError(
+                        "No se pudo registrar la venta. Verifique el stock disponible e intente nuevamente.");
 
             }
 

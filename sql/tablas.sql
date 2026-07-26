@@ -1,6 +1,6 @@
 CREATE TABLE categorias (
 
-    id_categoria INT PRIMARY KEY,
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
 
     nombre_categoria VARCHAR(50) NOT NULL
 
@@ -8,7 +8,7 @@ CREATE TABLE categorias (
 
 CREATE TABLE sucursales (
 
-    id_sucursal INT PRIMARY KEY,
+    id_sucursal INT PRIMARY KEY AUTO_INCREMENT,
 
     nombre VARCHAR(100) NOT NULL,
 
@@ -20,7 +20,7 @@ CREATE TABLE sucursales (
 
 CREATE TABLE clientes (
 
-    id_cliente INT PRIMARY KEY,
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
 
     nombre VARCHAR(80),
 
@@ -40,7 +40,7 @@ CREATE TABLE clientes (
 
 CREATE TABLE productos (
 
-    id_producto INT PRIMARY KEY,
+    id_producto INT PRIMARY KEY AUTO_INCREMENT,
 
     nombre VARCHAR(150),
 
@@ -60,7 +60,7 @@ CREATE TABLE productos (
 
 CREATE TABLE empleados (
 
-    id_empleado INT PRIMARY KEY,
+    id_empleado INT PRIMARY KEY AUTO_INCREMENT,
 
     nombre VARCHAR(80),
 

@@ -1,14 +1,15 @@
 package com.novatech.service;
 
+import com.novatech.model.Venta;
 import com.novatech.util.PDFUtil;
 
 import java.util.List;
 
 public class PDFService {
 
-    public void generarReporteVentas(List<?> ventas, String ruta) {
+    public void generarReporteVentas(List<Venta> ventas, String ruta) {
 
-        PDFUtil.generarReporte(ventas, "Ventas", ruta);
+        PDFUtil.generarReporteVentas(ventas, ruta);
 
     }
 
