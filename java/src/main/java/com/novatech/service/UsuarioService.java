@@ -7,6 +7,7 @@ import com.novatech.dao.AuditoriaDAO;
 import com.novatech.dao.UsuarioDAO;
 import com.novatech.model.Auditoria;
 import com.novatech.model.Usuario;
+import com.novatech.util.PasswordUtil;
 import com.novatech.util.Sesion;
 
 public class UsuarioService {
@@ -34,7 +35,7 @@ public class UsuarioService {
             return null;
         }
 
-        if (!usuarioBD.getContraseña().equals(contraseña)) {
+        if (!PasswordUtil.verificar(contraseña, usuarioBD.getContraseña())) {
             return null;
         }
 
@@ -83,6 +84,9 @@ public class UsuarioService {
         if (usuarioDAO.buscarPorUsuario(usuario.getUsuario()) != null) {
             return false;
         }
+
+        // Guardamos el hash, nunca la contraseña en texto plano.
+        usuario.setContraseña(PasswordUtil.hashear(usuario.getContraseña()));
 
         boolean resultado = usuarioDAO.insertar(usuario);
 
@@ -138,7 +142,7 @@ public class UsuarioService {
             return false;
         }
 
-        if (!usuario.getContraseña().equals(actual)) {
+        if (!PasswordUtil.verificar(actual, usuario.getContraseña())) {
             return false;
         }
 
@@ -154,7 +158,7 @@ public class UsuarioService {
             return false;
         }
 
-        boolean resultado = usuarioDAO.cambiarContraseña(id, nueva);
+        boolean resultado = usuarioDAO.cambiarContraseña(id, PasswordUtil.hashear(nueva));
 
         if (resultado) {
 
