@@ -237,6 +237,49 @@ public class UsuarioController {
     }
 
     @FXML
+    private void eliminarUsuario() {
+
+        Usuario usuario = tablaUsuarios.getSelectionModel().getSelectedItem();
+
+        if (usuario == null) {
+
+            mostrarAlerta("Seleccione un usuario.");
+
+            return;
+
+        }
+
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+
+        confirmacion.setHeaderText(null);
+
+        confirmacion.setContentText(
+                "¿Seguro que querés eliminar al usuario \"" + usuario.getUsuario() + "\"? Esta acción no se puede deshacer."
+        );
+
+        confirmacion.showAndWait().ifPresent(boton -> {
+
+            if (boton == javafx.scene.control.ButtonType.OK) {
+
+                if (usuarioService.eliminarUsuario(usuario.getIdUsuario())) {
+
+                    mostrarAlerta("Usuario eliminado correctamente.");
+
+                    cargarUsuarios();
+
+                } else {
+
+                    mostrarAlerta("No se pudo eliminar el usuario (no puede eliminarse a sí mismo).");
+
+                }
+
+            }
+
+        });
+
+    }
+
+    @FXML
     private void seleccionarUsuario() {
 
         Usuario usuario = tablaUsuarios.getSelectionModel().getSelectedItem();

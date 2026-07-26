@@ -50,6 +50,9 @@ public class ProductoController implements Initializable {
     private ComboBox<String> cmbCategoria;
 
     @FXML
+    private ComboBox<String> cmbMarca;
+
+    @FXML
     private Button btnNuevo;
 
     @FXML
@@ -66,6 +69,39 @@ public class ProductoController implements Initializable {
         configurarTabla();
 
         cargarDatos();
+
+        cargarMarcas();
+
+    }
+
+    private void cargarMarcas() {
+
+        cmbMarca.getItems().clear();
+
+        cmbMarca.getItems().add("Todas");
+
+        cmbMarca.getItems().addAll(productoService.obtenerMarcas());
+
+        cmbMarca.getSelectionModel().selectFirst();
+
+    }
+
+    @FXML
+    private void filtrarMarca() {
+
+        String marca = cmbMarca.getValue();
+
+        List<Producto> lista;
+
+        if (marca == null || marca.equals("Todas")) {
+            lista = productoService.obtenerTodos();
+        } else {
+            lista = productoService.buscarPorMarca(marca);
+        }
+
+        tablaProductos.setItems(
+            FXCollections.observableArrayList(lista)
+        );
 
     }
 

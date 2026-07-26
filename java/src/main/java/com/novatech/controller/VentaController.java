@@ -264,6 +264,7 @@ public class VentaController {
 
     }
 
+    @FXML
     private void limpiarFormulario(){
 
         cmbCliente.getSelectionModel().clearSelection();

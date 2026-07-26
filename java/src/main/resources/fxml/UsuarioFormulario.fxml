@@ -38,7 +38,7 @@
                        GridPane.rowIndex="1"/>
 
             <Label text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <TextField fx:id="txtPassword"
+            <PasswordField fx:id="txtPassword"
                        promptText="Ingrese la contraseña"
                        GridPane.columnIndex="1"
                        GridPane.rowIndex="2"/>

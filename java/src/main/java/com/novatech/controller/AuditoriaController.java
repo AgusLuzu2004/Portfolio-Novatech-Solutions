@@ -19,10 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class AuditoriaController {
 
     @FXML
-    private TableView<Auditoria> tabla;
-
-    @FXML
-    private TableColumn<Auditoria, Integer> colId;
+    private TableView<Auditoria> tablaAuditoria;
 
     @FXML
     private TableColumn<Auditoria, String> colUsuario;
@@ -62,7 +59,6 @@ public class AuditoriaController {
 
     private void configurarTabla() {
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("idAuditoria"));
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         colAccion.setCellValueFactory(new PropertyValueFactory<>("accion"));
         colModulo.setCellValueFactory(new PropertyValueFactory<>("modulo"));
@@ -76,7 +72,7 @@ public class AuditoriaController {
                 auditoriaService.listar()
         );
 
-        tabla.setItems(listaAuditoria);
+        tablaAuditoria.setItems(listaAuditoria);
 
     }
 
@@ -104,7 +100,7 @@ public class AuditoriaController {
             ));
         }
 
-        tabla.setItems(listaAuditoria);
+        tablaAuditoria.setItems(listaAuditoria);
 
     }
 

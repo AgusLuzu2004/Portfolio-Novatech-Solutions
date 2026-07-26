@@ -73,10 +73,6 @@
                                  text="Módulo"
                                  prefWidth="150"/>
 
-                    <TableColumn fx:id="colDescripcion"
-                                 text="Descripción"
-                                 prefWidth="350"/>
-
                     <TableColumn fx:id="colFecha"
                                  text="Fecha"
                                  prefWidth="180"/>

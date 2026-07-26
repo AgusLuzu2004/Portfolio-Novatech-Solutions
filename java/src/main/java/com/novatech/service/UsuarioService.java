@@ -232,4 +232,34 @@ public class UsuarioService {
         return usuarioDAO.buscarPorNombre(texto);
     }
 
+    public boolean eliminarUsuario(int id) {
+
+        Usuario usuario = usuarioDAO.buscarPorId(id);
+
+        if (usuario == null) {
+            return false;
+        }
+
+        if (Sesion.getUsuario().getIdUsuario() == id) {
+            return false;
+        }
+
+        boolean resultado = usuarioDAO.eliminar(id);
+
+        if (resultado) {
+
+            auditoriaDAO.registrar(new Auditoria(
+                    Sesion.getUsuario().getIdUsuario(),
+                    Sesion.getUsuario().getUsuario(),
+                    "ELIMINAR",
+                    "Usuarios",
+                    LocalDateTime.now()
+            ));
+
+        }
+
+        return resultado;
+
+    }
+
 }

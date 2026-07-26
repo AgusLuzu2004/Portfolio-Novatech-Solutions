@@ -11,6 +11,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class ConfiguracionController {
 
@@ -25,6 +26,9 @@ public class ConfiguracionController {
 
     @FXML
     private Spinner<Integer> spRegistros;
+
+    @FXML
+    private TextField txtLogo;
 
     @FXML
     public void initialize() {
@@ -96,14 +100,24 @@ public class ConfiguracionController {
 
         if (archivo != null) {
 
+            txtLogo.setText(archivo.getAbsolutePath());
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Logo");
             alert.setHeaderText(null);
             alert.setContentText("Logo seleccionado:\n" + archivo.getName());
             alert.showAndWait();
 
-            // Más adelante podés guardar la ruta
         }
+
+    }
+
+    @FXML
+    private void cancelar() {
+
+        Stage stage = (Stage) txtEmpresa.getScene().getWindow();
+
+        stage.close();
 
     }
 

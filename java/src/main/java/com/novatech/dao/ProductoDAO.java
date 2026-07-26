@@ -145,6 +145,29 @@ public class ProductoDAO {
         return productos;
     }
 
+    public List<String> obtenerMarcas() {
+
+        List<String> marcas = new ArrayList<>();
+
+        String sql = "SELECT DISTINCT marca FROM productos ORDER BY marca";
+
+        try (
+            Connection conexion = Conexion.conectar();
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ) {
+
+            while (rs.next()) {
+                marcas.add(rs.getString("marca"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return marcas;
+    }
+
     public List<Producto> buscarPorMarca(String marca) {
         List<Producto> productos = new ArrayList<>();
 

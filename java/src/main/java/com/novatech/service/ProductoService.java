@@ -61,4 +61,12 @@ public class ProductoService {
     public List<Producto> buscar(String texto) {
         return productoDAO.buscarPorNombre(texto);
     }
+
+    public List<Producto> buscarPorMarca(String marca) {
+        return productoDAO.buscarPorMarca(marca);
+    }
+
+    public List<String> obtenerMarcas() {
+        return productoDAO.obtenerMarcas();
+    }
 }
