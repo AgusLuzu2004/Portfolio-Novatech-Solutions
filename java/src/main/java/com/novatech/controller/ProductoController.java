@@ -72,6 +72,39 @@ public class ProductoController implements Initializable {
 
         cargarMarcas();
 
+        cargarCategorias();
+
+    }
+
+    private void cargarCategorias() {
+
+        cmbCategoria.getItems().clear();
+
+        cmbCategoria.getItems().add("Todas");
+
+        cmbCategoria.getItems().addAll(productoService.obtenerCategorias());
+
+        cmbCategoria.getSelectionModel().selectFirst();
+
+    }
+
+    @FXML
+    private void filtrarCategoria() {
+
+        String categoria = cmbCategoria.getValue();
+
+        List<Producto> lista;
+
+        if (categoria == null || categoria.equals("Todas")) {
+            lista = productoService.obtenerTodos();
+        } else {
+            lista = productoService.buscarPorCategoria(categoria);
+        }
+
+        tablaProductos.setItems(
+            FXCollections.observableArrayList(lista)
+        );
+
     }
 
     private void cargarMarcas() {

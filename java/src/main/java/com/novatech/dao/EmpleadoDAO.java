@@ -176,6 +176,67 @@ public class EmpleadoDAO {
         return empleados;
     }
 
+    public List<Empleado> buscarPorSucursalNombre(String nombreSucursal) {
+
+        List<Empleado> empleados = new ArrayList<>();
+
+        String sql = "SELECT e.* FROM empleados e " +
+                "JOIN sucursales s ON e.id_sucursal = s.id_sucursal " +
+                "WHERE s.nombre = ?";
+
+        try (
+            Connection conexion = Conexion.conectar();
+            PreparedStatement ps = conexion.prepareStatement(sql);
+        ) {
+
+            ps.setString(1, nombreSucursal);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Empleado empleado = new Empleado();
+
+                    empleado.setIdEmpleado(rs.getInt("id_empleado"));
+                    empleado.setNombre(rs.getString("nombre"));
+                    empleado.setApellido(rs.getString("apellido"));
+                    empleado.setIdSucursal(rs.getInt("id_sucursal"));
+                    empleado.setFechaIngreso(rs.getDate("fecha_ingreso").toLocalDate());
+
+                    empleados.add(empleado);
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return empleados;
+    }
+
+    public List<String> obtenerNombresSucursales() {
+
+        List<String> nombres = new ArrayList<>();
+
+        String sql = "SELECT nombre FROM sucursales ORDER BY nombre";
+
+        try (
+            Connection conexion = Conexion.conectar();
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ) {
+
+            while (rs.next()) {
+                nombres.add(rs.getString("nombre"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return nombres;
+    }
+
     public void insertar(Empleado empleado) {
         String sql = "INSERT INTO empleados (nombre, apellido, id_sucursal, fecha_ingreso) VALUES (?, ?, ?, ?)";
 

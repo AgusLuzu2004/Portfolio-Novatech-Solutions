@@ -79,6 +79,8 @@ public class UsuarioController {
 
         cargarUsuarios();
 
+        cmbRol.getItems().addAll(Rol.values());
+
     }
 
     private void configurarTabla() {

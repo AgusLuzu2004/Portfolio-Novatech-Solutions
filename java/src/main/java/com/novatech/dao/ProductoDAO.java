@@ -145,6 +145,68 @@ public class ProductoDAO {
         return productos;
     }
 
+    public List<Producto> buscarPorCategoriaNombre(String nombreCategoria) {
+
+        List<Producto> productos = new ArrayList<>();
+
+        String sql = "SELECT p.* FROM productos p " +
+                "JOIN categorias c ON p.id_categoria = c.id_categoria " +
+                "WHERE c.nombre_categoria = ?";
+
+        try (
+            Connection conexion = Conexion.conectar();
+            PreparedStatement ps = conexion.prepareStatement(sql);
+        ) {
+
+            ps.setString(1, nombreCategoria);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Producto producto = new Producto();
+
+                    producto.setIdProducto(rs.getInt("id_producto"));
+                    producto.setNombre(rs.getString("nombre"));
+                    producto.setMarca(rs.getString("marca"));
+                    producto.setIdCategoria(rs.getInt("id_categoria"));
+                    producto.setPrecio(rs.getDouble("precio"));
+                    producto.setStock(rs.getInt("stock"));
+
+                    productos.add(producto);
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productos;
+    }
+
+    public List<String> obtenerNombresCategorias() {
+
+        List<String> nombres = new ArrayList<>();
+
+        String sql = "SELECT nombre_categoria FROM categorias ORDER BY nombre_categoria";
+
+        try (
+            Connection conexion = Conexion.conectar();
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+        ) {
+
+            while (rs.next()) {
+                nombres.add(rs.getString("nombre_categoria"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return nombres;
+    }
+
     public List<String> obtenerMarcas() {
 
         List<String> marcas = new ArrayList<>();

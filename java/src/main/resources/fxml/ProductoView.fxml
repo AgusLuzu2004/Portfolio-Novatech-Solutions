@@ -27,6 +27,11 @@
                 <ComboBox fx:id="cmbMarca"
                           onAction="#filtrarMarca"/>
 
+                <Label text="Categoría:"/>
+
+                <ComboBox fx:id="cmbCategoria"
+                          onAction="#filtrarCategoria"/>
+
             </HBox>
 
         </VBox>

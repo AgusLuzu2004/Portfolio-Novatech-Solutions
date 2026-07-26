@@ -22,6 +22,11 @@
                 <Button text="Buscar"
                         onAction="#buscarEmpleado"/>
 
+                <Label text="Sucursal:"/>
+
+                <ComboBox fx:id="cmbSucursal"
+                          onAction="#filtrarSucursal"/>
+
             </HBox>
 
         </VBox>

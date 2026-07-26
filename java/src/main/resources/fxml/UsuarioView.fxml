@@ -30,7 +30,8 @@
 
     <center>
 
-        <TableView fx:id="tablaUsuarios">
+        <TableView fx:id="tablaUsuarios"
+                   onMouseClicked="#seleccionarUsuario">
 
             <columns>
 
@@ -50,6 +51,30 @@
 
     </center>
 
+    <right>
+
+        <VBox spacing="10"
+              style="-fx-padding: 10;"
+              prefWidth="220">
+
+            <Label text="Detalle del usuario seleccionado"
+                   style="-fx-font-weight:bold;"/>
+
+            <Label text="Usuario:"/>
+            <TextField fx:id="txtUsuario" editable="false"/>
+
+            <Label text="Nombre:"/>
+            <TextField fx:id="txtNombre" editable="false"/>
+
+            <Label text="Rol:"/>
+            <ComboBox fx:id="cmbRol" disable="true" prefWidth="200"/>
+
+            <CheckBox fx:id="chkActivo" text="Activo" disable="true"/>
+
+        </VBox>
+
+    </right>
+
     <bottom>
 
         <HBox spacing="10"
@@ -67,6 +92,12 @@
             <Button fx:id="btnEliminar"
                     text="Eliminar"
                     onAction="#eliminarUsuario"/>
+
+            <Button text="Activar"
+                    onAction="#activarUsuario"/>
+
+            <Button text="Desactivar"
+                    onAction="#desactivarUsuario"/>
 
         </HBox>
 

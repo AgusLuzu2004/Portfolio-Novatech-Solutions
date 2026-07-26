@@ -65,6 +65,39 @@ public class EmpleadoController implements Initializable {
 
         cargarDatos();
 
+        cargarSucursales();
+
+    }
+
+    private void cargarSucursales() {
+
+        cmbSucursal.getItems().clear();
+
+        cmbSucursal.getItems().add("Todas");
+
+        cmbSucursal.getItems().addAll(empleadoService.obtenerSucursales());
+
+        cmbSucursal.getSelectionModel().selectFirst();
+
+    }
+
+    @FXML
+    private void filtrarSucursal() {
+
+        String sucursal = cmbSucursal.getValue();
+
+        List<Empleado> lista;
+
+        if (sucursal == null || sucursal.equals("Todas")) {
+            lista = empleadoService.obtenerTodos();
+        } else {
+            lista = empleadoService.buscarPorSucursal(sucursal);
+        }
+
+        tablaEmpleados.setItems(
+            FXCollections.observableArrayList(lista)
+        );
+
     }
 
     private void configurarTabla() {

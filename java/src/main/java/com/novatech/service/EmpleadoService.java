@@ -61,6 +61,14 @@ public class EmpleadoService {
         return empleadoDAO.buscarPorNombre(texto);
     }
 
+    public List<Empleado> buscarPorSucursal(String nombreSucursal) {
+        return empleadoDAO.buscarPorSucursalNombre(nombreSucursal);
+    }
+
+    public List<String> obtenerSucursales() {
+        return empleadoDAO.obtenerNombresSucursales();
+    }
+
     public List<Empleado> listarEmpleados() {
         return empleadoDAO.listarEmpleados();
     }
