@@ -24,6 +24,9 @@
             <Label
                     text="Seleccione el tipo de exportación."/>
 
+            <ComboBox fx:id="cmbTipo"
+                      prefWidth="220"/>
+
             <HBox spacing="20" alignment="CENTER">
 
                 <Button

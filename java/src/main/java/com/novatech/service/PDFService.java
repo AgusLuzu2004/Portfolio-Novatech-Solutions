@@ -25,4 +25,10 @@ public class PDFService {
 
     }
 
+    public void generarReporteEmpleados(List<?> empleados, String ruta) {
+
+        PDFUtil.generarReporte(empleados, "Empleados", ruta);
+
+    }
+
 }

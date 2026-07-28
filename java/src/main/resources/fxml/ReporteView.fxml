@@ -194,13 +194,13 @@
 
                         <center>
 
-                            <TableView>
+                            <TableView fx:id="tablaResumen">
 
                                 <columns>
 
-                                    <TableColumn text="Indicador"/>
+                                    <TableColumn fx:id="colIndicador" text="Indicador"/>
 
-                                    <TableColumn text="Valor"/>
+                                    <TableColumn fx:id="colValor" text="Valor"/>
 
                                 </columns>
 

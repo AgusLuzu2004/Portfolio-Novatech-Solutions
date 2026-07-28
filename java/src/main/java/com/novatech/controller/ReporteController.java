@@ -3,11 +3,33 @@ package com.novatech.controller;
 import com.novatech.model.reporte.*;
 import com.novatech.service.ReporteService;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ReporteController {
+
+    public static class FilaResumen {
+
+        private final SimpleStringProperty indicador;
+        private final SimpleStringProperty valor;
+
+        public FilaResumen(String indicador, String valor) {
+            this.indicador = new SimpleStringProperty(indicador);
+            this.valor = new SimpleStringProperty(valor);
+        }
+
+        public String getIndicador() {
+            return indicador.get();
+        }
+
+        public String getValor() {
+            return valor.get();
+        }
+
+    }
 
     private ReporteService reporteService;
 
@@ -54,9 +76,22 @@ public class ReporteController {
     private PieChart pieMediosPago;
 
     @FXML
+    private TableView<FilaResumen> tablaResumen;
+
+    @FXML
+    private TableColumn<FilaResumen, String> colIndicador;
+
+    @FXML
+    private TableColumn<FilaResumen, String> colValor;
+
+    @FXML
     public void initialize() {
 
         reporteService = new ReporteService();
+
+        colIndicador.setCellValueFactory(new PropertyValueFactory<>("indicador"));
+
+        colValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
 
         cargarCombos();
 
@@ -110,6 +145,13 @@ public class ReporteController {
 
         lblProductos.setText(String.valueOf(
                 dashboard.getProductosVendidos()));
+
+        tablaResumen.getItems().setAll(
+                new FilaResumen("Facturación Total", String.format("$%,.2f", dashboard.getFacturacionTotal())),
+                new FilaResumen("Cantidad de Ventas", String.valueOf(dashboard.getCantidadVentas())),
+                new FilaResumen("Clientes Activos", String.valueOf(dashboard.getClientesActivos())),
+                new FilaResumen("Productos Vendidos", String.valueOf(dashboard.getProductosVendidos()))
+        );
 
     }
 

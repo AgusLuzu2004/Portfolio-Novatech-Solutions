@@ -2,6 +2,7 @@ package com.novatech.service;
 
 import java.util.List;
 
+import com.novatech.model.Empleado;
 import com.novatech.model.Venta;
 import com.novatech.util.ExcelUtil;
 import com.novatech.util.PDFUtil;
@@ -25,6 +26,16 @@ public class ExportacionService {
         }
 
         ExcelUtil.exportar(productos, "Productos", ruta);
+
+    }
+
+    public void exportarEmpleadosExcel(List<Empleado> empleados, String ruta) {
+
+        if (empleados == null || empleados.isEmpty()) {
+            throw new IllegalArgumentException("No hay empleados para exportar.");
+        }
+
+        ExcelUtil.exportar(empleados, "Empleados", ruta);
 
     }
 
