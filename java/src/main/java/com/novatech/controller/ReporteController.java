@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ReporteController {
 
@@ -89,9 +88,11 @@ public class ReporteController {
 
         reporteService = new ReporteService();
 
-        colIndicador.setCellValueFactory(new PropertyValueFactory<>("indicador"));
+        colIndicador.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getIndicador()));
 
-        colValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        colValor.setCellValueFactory(datos ->
+                new SimpleStringProperty(datos.getValue().getValor()));
 
         cargarCombos();
 
