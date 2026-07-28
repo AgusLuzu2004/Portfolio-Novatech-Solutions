@@ -1,6 +1,12 @@
 package com.novatech.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,6 +20,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ConfiguracionController {
+
+    private static final Path ARCHIVO_CONFIGURACION =
+            Path.of(System.getProperty("user.home"), ".novatech", "configuracion.properties");
 
     @FXML
     private TextField txtEmpresa;
@@ -43,32 +52,87 @@ public class ConfiguracionController {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 100, 20)
         );
 
-        restaurarValores();
+        cargarConfiguracion();
 
     }
 
     @FXML
     private void guardarConfiguracion() {
 
-        String empresa = txtEmpresa.getText();
-        String moneda = cmbMoneda.getValue();
-        String color = colorPrincipal.getValue().toString();
-        Integer registros = spRegistros.getValue();
+        Properties propiedades = new Properties();
 
-        System.out.println("Empresa: " + empresa);
-        System.out.println("Moneda: " + moneda);
-        System.out.println("Color: " + color);
-        System.out.println("Registros: " + registros);
+        propiedades.setProperty("empresa", valorSeguro(txtEmpresa.getText(), "NovaTech Solutions"));
+        propiedades.setProperty("moneda", valorSeguro(cmbMoneda.getValue(), "ARS - Peso Argentino"));
+        propiedades.setProperty("color", colorPrincipal.getValue().toString());
+        propiedades.setProperty("registros", String.valueOf(spRegistros.getValue()));
+        propiedades.setProperty("logo", valorSeguro(txtLogo.getText(), ""));
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Configuración");
-        alert.setHeaderText(null);
-        alert.setContentText("Configuración guardada correctamente.");
-        alert.showAndWait();
+        try {
+
+            if (ARCHIVO_CONFIGURACION.getParent() != null) {
+                Files.createDirectories(ARCHIVO_CONFIGURACION.getParent());
+            }
+
+            try (OutputStream salida = Files.newOutputStream(ARCHIVO_CONFIGURACION)) {
+                propiedades.store(salida, "Configuración de NovaTech Solutions");
+            }
+
+            mostrarInfo("Configuración guardada correctamente.");
+
+        } catch (IOException e) {
+
+            mostrarError("No se pudo guardar la configuración: " + e.getMessage());
+
+        }
+
     }
 
     @FXML
     private void restaurarValores() {
+
+        aplicarValoresPorDefecto();
+
+        mostrarInfo("Se restauraron los valores predeterminados.");
+
+    }
+
+    private void cargarConfiguracion() {
+
+        if (!Files.exists(ARCHIVO_CONFIGURACION)) {
+            aplicarValoresPorDefecto();
+            return;
+        }
+
+        Properties propiedades = new Properties();
+
+        try (InputStream entrada = Files.newInputStream(ARCHIVO_CONFIGURACION)) {
+
+            propiedades.load(entrada);
+
+            txtEmpresa.setText(propiedades.getProperty("empresa", "NovaTech Solutions"));
+            cmbMoneda.setValue(propiedades.getProperty("moneda", "ARS - Peso Argentino"));
+
+            try {
+                colorPrincipal.setValue(Color.web(propiedades.getProperty("color", "#1e90ff")));
+            } catch (IllegalArgumentException e) {
+                colorPrincipal.setValue(Color.DODGERBLUE);
+            }
+
+            spRegistros.getValueFactory().setValue(
+                    Integer.parseInt(propiedades.getProperty("registros", "20"))
+            );
+
+            txtLogo.setText(propiedades.getProperty("logo", ""));
+
+        } catch (IOException | NumberFormatException e) {
+
+            aplicarValoresPorDefecto();
+
+        }
+
+    }
+
+    private void aplicarValoresPorDefecto() {
 
         txtEmpresa.setText("NovaTech Solutions");
 
@@ -78,6 +142,12 @@ public class ConfiguracionController {
 
         spRegistros.getValueFactory().setValue(20);
 
+        txtLogo.setText("");
+
+    }
+
+    private String valorSeguro(String valor, String porDefecto) {
+        return valor != null && !valor.isBlank() ? valor : porDefecto;
     }
 
     @FXML
@@ -102,11 +172,7 @@ public class ConfiguracionController {
 
             txtLogo.setText(archivo.getAbsolutePath());
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Logo");
-            alert.setHeaderText(null);
-            alert.setContentText("Logo seleccionado:\n" + archivo.getName());
-            alert.showAndWait();
+            mostrarInfo("Logo seleccionado:\n" + archivo.getName());
 
         }
 
@@ -118,6 +184,26 @@ public class ConfiguracionController {
         Stage stage = (Stage) txtEmpresa.getScene().getWindow();
 
         stage.close();
+
+    }
+
+    private void mostrarInfo(String mensaje) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Configuración");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+
+    }
+
+    private void mostrarError(String mensaje) {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Configuración");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
 
     }
 
