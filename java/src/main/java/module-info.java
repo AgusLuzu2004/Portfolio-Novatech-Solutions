@@ -8,6 +8,7 @@ module com.novatech {
     requires javafx.base;
     requires org.apache.poi.ooxml;
     requires com.github.librepdf.openpdf;
+    requires org.slf4j;
 
     opens com.novatech.controller to javafx.fxml;
 

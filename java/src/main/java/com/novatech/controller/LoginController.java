@@ -1,5 +1,8 @@
 package com.novatech.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.novatech.model.Usuario;
 import com.novatech.service.UsuarioService;
 
@@ -25,6 +28,9 @@ public class LoginController {
 
     private final UsuarioService usuarioService = new UsuarioService();
 
+    private static final Logger logger =
+        LoggerFactory.getLogger(LoginController.class);
+
     @FXML
     private void iniciarSesion() {
 
@@ -32,7 +38,8 @@ public class LoginController {
 
         String contraseña = txtContraseña.getText();
 
-        Usuario usuarioAutenticado = usuarioService.iniciarSesion(usuario, contraseña);
+        Usuario usuarioAutenticado =
+                usuarioService.iniciarSesion(usuario, contraseña);
 
         if (usuarioAutenticado == null) {
 
@@ -43,6 +50,10 @@ public class LoginController {
         }
 
         try {
+
+            logger.info(
+                    "Abriendo menú principal para el usuario {}.",
+                    usuarioAutenticado.getUsuario());
 
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/fxml/MenuPrincipalView.fxml")
@@ -66,7 +77,10 @@ public class LoginController {
 
         } catch (Exception e) {
 
-            lblError.setText("No se pudo abrir el menú principal: " + e.getMessage());
+            logger.error("Error al abrir el menú principal.", e);
+
+            lblError.setText(
+                    "No se pudo abrir el menú principal: " + e.getMessage());
 
         }
 

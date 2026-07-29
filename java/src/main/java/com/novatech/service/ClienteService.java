@@ -5,29 +5,98 @@ import com.novatech.model.Cliente;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ClienteService {
 
-    private ClienteDAO clienteDAO = new ClienteDAO();
+    private ClienteDAO clienteDAO;
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(ClienteService.class);
+
+    public ClienteService() {
+        this.clienteDAO = new ClienteDAO();
+    }
+
+    public ClienteService(ClienteDAO clienteDAO) {
+        this.clienteDAO = clienteDAO;
+    }
 
     public void guardarCliente(Cliente cliente) {
 
-        validarCliente(cliente);
+        try {
 
-        clienteDAO.insertar(cliente);
+            validarCliente(cliente);
+
+            logger.info("Intentando guardar cliente: {} {}",
+                    cliente.getNombre(),
+                    cliente.getApellido());
+
+            clienteDAO.insertar(cliente);
+
+            logger.info("Cliente guardado correctamente. ID: {}",
+                    cliente.getIdCliente());
+
+        } catch (IllegalArgumentException e) {
+
+            logger.warn("Error de validación al guardar cliente: {}", e.getMessage());
+            throw e;
+
+        } catch (Exception e) {
+
+            logger.error("Error inesperado al guardar cliente.", e);
+            throw e;
+
+        }
 
     }
 
     public void actualizarCliente(Cliente cliente) {
 
-        validarCliente(cliente);
+        try {
 
-        clienteDAO.actualizar(cliente);
+            validarCliente(cliente);
+
+            logger.info("Intentando actualizar cliente: {} {}",
+                    cliente.getNombre(),
+                    cliente.getApellido());
+
+            clienteDAO.actualizar(cliente);
+
+            logger.info("Cliente actualizado correctamente. ID: {}",
+                    cliente.getIdCliente());
+
+        } catch (IllegalArgumentException e) {
+
+            logger.warn("Error de validación al actualizar cliente: {}", e.getMessage());
+            throw e;
+
+        } catch (Exception e) {
+
+            logger.error("Error inesperado al actualizar cliente.", e);
+            throw e;
+
+        }
 
     }
 
     public void eliminarCliente(int id) {
 
-        clienteDAO.eliminar(id);
+        try {
+
+            logger.info("Intentando eliminar cliente con ID: {}", id);
+
+            clienteDAO.eliminar(id);
+
+            logger.info("Cliente eliminado correctamente. ID: {}", id);
+
+        } catch (Exception e) {
+
+            logger.error("Error al eliminar el cliente con ID: {}", id, e);
+            throw e;
+
+        }
 
     }
 

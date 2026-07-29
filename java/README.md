@@ -136,3 +136,36 @@ Tecnologías:
 - Preferencias
 - Historial de exportaciones
 - Panel "Acerca de"
+
+## Testing
+
+Se implementaron pruebas unitarias utilizando:
+
+- JUnit 5
+- Mockito
+
+Cobertura:
+
+- Validaciones de clientes
+- Validaciones de productos
+- Registro de ventas
+- Gestión de usuarios
+
+## Logging
+
+Tecnologías:
+
+- SLF4J
+- Logback
+
+Se registran:
+
+- Inicio del sistema
+- Inicio y cierre de sesión
+- Altas
+- Modificaciones
+- Eliminaciones
+- Ventas
+- Exportaciones
+- Backups
+- Errores

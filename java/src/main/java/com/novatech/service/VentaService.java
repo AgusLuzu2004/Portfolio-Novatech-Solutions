@@ -3,6 +3,9 @@ package com.novatech.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.novatech.dao.ProductoDAO;
 import com.novatech.dao.VentaDAO;
 import com.novatech.model.DetalleVenta;
@@ -10,20 +13,84 @@ import com.novatech.model.Producto;
 import com.novatech.model.Venta;
 
 public class VentaService {
-    private VentaDAO ventaDAO = new VentaDAO();
-    private ProductoDAO productoDAO = new ProductoDAO();
+    private VentaDAO ventaDAO;
+    private ProductoDAO productoDAO;
+
+    private static final Logger logger =
+        LoggerFactory.getLogger(VentaService.class);
+
+    public VentaService() {
+        this.ventaDAO = new VentaDAO();
+        this.productoDAO = new ProductoDAO();
+    }
+
+    public VentaService(VentaDAO ventaDAO, ProductoDAO productoDAO) {
+        this.ventaDAO = ventaDAO;
+        this.productoDAO = productoDAO;
+    }
 
     public boolean registrarVenta(Venta venta) {
 
-        validarVenta(venta);
+        try {
 
-        calcularSubtotales(venta);
+            logger.info("Iniciando registro de una nueva venta.");
 
-        calcularTotal(venta);
+            validarVenta(venta);
 
-        verificarStock(venta);
+            logger.info(
+                    "Cliente: {} | Empleado: {}",
+                    venta.getCliente().getNombre(),
+                    venta.getEmpleado().getNombre()
+            );
 
-        return ventaDAO.registrarVenta(venta);
+            calcularSubtotales(venta);
+
+            calcularTotal(venta);
+
+            logger.info(
+                    "Total calculado: {}",
+                    venta.getTotal()
+            );
+
+            verificarStock(venta);
+
+            boolean registrada = ventaDAO.registrarVenta(venta);
+
+            if (registrada) {
+
+                logger.info(
+                        "Venta registrada correctamente. Total: {} | Productos: {}",
+                        venta.getTotal(),
+                        venta.getDetalles().size()
+                );
+
+            } else {
+
+                logger.warn("La venta no pudo registrarse.");
+
+            }
+
+            return registrada;
+
+        } catch (IllegalArgumentException e) {
+
+            logger.warn(
+                    "Error de validación al registrar venta: {}",
+                    e.getMessage()
+            );
+
+            throw e;
+
+        } catch (Exception e) {
+
+            logger.error(
+                    "Error inesperado al registrar la venta.",
+                    e
+            );
+
+            throw e;
+        }
+
     }
 
     private void validarVenta(Venta venta) {
@@ -69,7 +136,7 @@ public class VentaService {
 
     }
 
-    private void calcularTotal(Venta venta) {
+    double calcularTotal(Venta venta) {
 
         double total = 0;
 
@@ -83,6 +150,8 @@ public class VentaService {
 
         venta.setTotal(total);
 
+        return total;
+
     }
 
     private void verificarStock(Venta venta) {
@@ -92,12 +161,26 @@ public class VentaService {
             Producto producto = productoDAO.buscarPorId(detalle.getProducto().getIdProducto());
 
             if (producto == null) {
+
+                logger.warn(
+                        "Producto inexistente. ID: {}",
+                        detalle.getProducto().getIdProducto()
+                );
+
                 throw new IllegalArgumentException("Producto no encontrado.");
             }
 
             if (detalle.getCantidad() > producto.getStock()) {
+
+                logger.warn(
+                        "Stock insuficiente para el producto {}. Disponible: {} - Solicitado: {}",
+                        producto.getNombre(),
+                        producto.getStock(),
+                        detalle.getCantidad()
+                );
+
                 throw new IllegalArgumentException(
-                    "No hay suficiente stock para " + producto.getNombre());
+                        "No hay suficiente stock para " + producto.getNombre());
             }
 
         }
