@@ -11,16 +11,16 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/MenuPrincipalView.fxml")
+                getClass().getResource("/fxml/LoginView.fxml")
         );
 
         Scene scene = new Scene(loader.load());
 
-        stage.setTitle("NovaTech Solutions");
+        stage.setTitle("NovaTech Solutions - Iniciar sesión");
 
         stage.setScene(scene);
 
-        stage.setMaximized(true);
+        stage.setResizable(false);
 
         stage.show();
 

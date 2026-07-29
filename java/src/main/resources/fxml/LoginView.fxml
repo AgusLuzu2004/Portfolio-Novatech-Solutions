@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.novatech.controller.LoginController"
+      alignment="CENTER"
+      spacing="15"
+      prefWidth="360"
+      prefHeight="280">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <Label text="NovaTech Solutions"
+           style="-fx-font-size:22px; -fx-font-weight:bold;"/>
+
+    <Label text="Iniciar sesión"
+           style="-fx-font-size:14px; -fx-text-fill:#666;"/>
+
+    <VBox spacing="5">
+        <Label text="Usuario:"/>
+        <TextField fx:id="txtUsuario" promptText="Nombre de usuario"/>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Contraseña:"/>
+        <PasswordField fx:id="txtContraseña"
+                        promptText="Contraseña"
+                        onAction="#iniciarSesion"/>
+    </VBox>
+
+    <Label fx:id="lblError"
+           style="-fx-text-fill:red;"
+           wrapText="true"/>
+
+    <Button text="Ingresar"
+            defaultButton="true"
+            onAction="#iniciarSesion"
+            prefWidth="150"/>
+
+</VBox>
