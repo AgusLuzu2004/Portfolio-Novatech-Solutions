@@ -140,6 +140,14 @@ public class UsuarioService {
 
             if (resultado) {
 
+                auditoriaDAO.registrar(new Auditoria(
+                        Sesion.getUsuario().getIdUsuario(),
+                        Sesion.getUsuario().getUsuario(),
+                        "INSERT",
+                        "Usuarios",
+                        LocalDateTime.now()
+                ));
+
                 logger.info(
                     "Usuario creado correctamente: {}",
                     usuario.getUsuario());
@@ -185,12 +193,19 @@ public class UsuarioService {
                     LocalDateTime.now()
             ));
 
-        }
+            logger.info(
+                "Usuario actualizado correctamente. ID {}",
+                usuario.getIdUsuario()
+            );
 
-        logger.info(
-            "Usuario actualizado correctamente. ID {}",
-            usuario.getIdUsuario()
-        );
+        } else {
+
+            logger.warn(
+                "No se pudo actualizar el usuario. ID {}",
+                usuario.getIdUsuario()
+            );
+
+        }
 
         return resultado;
 
@@ -237,12 +252,19 @@ public class UsuarioService {
                     LocalDateTime.now()
             ));
 
-        }
+            logger.info(
+                "Contraseña modificada correctamente para el usuario ID {}",
+                id
+            );
 
-        logger.info(
-            "Contraseña modificada correctamente para el usuario ID {}",
-            id
-        );
+        } else {
+
+            logger.warn(
+                "No se pudo modificar la contraseña del usuario ID {}",
+                id
+            );
+
+        }
 
         return resultado;
 
@@ -269,12 +291,19 @@ public class UsuarioService {
                     LocalDateTime.now()
             ));
 
-        }
+            logger.info(
+                "Usuario activado correctamente. ID {}",
+                id
+            );
 
-        logger.info(
-            "Usuario activado correctamente. ID {}",
-            id
-        );
+        } else {
+
+            logger.warn(
+                "No se pudo activar el usuario ID {}",
+                id
+            );
+
+        }
 
         return resultado;
 
@@ -289,6 +318,12 @@ public class UsuarioService {
         }
 
         if (Sesion.getUsuario().getIdUsuario() == id) {
+
+            logger.warn(
+                "El usuario {} intentó desactivar su propia cuenta.",
+                Sesion.getUsuario().getUsuario()
+            );
+
             return false;
         }
 
@@ -309,17 +344,19 @@ public class UsuarioService {
                     LocalDateTime.now()
             ));
 
+            logger.info(
+                "Usuario desactivado correctamente. ID {}",
+                id
+            );
+
+        } else {
+
+            logger.warn(
+                "No se pudo desactivar el usuario ID {}",
+                id
+            );
+
         }
-
-        logger.info(
-            "Usuario desactivado correctamente. ID {}",
-            id
-        );
-
-        logger.warn(
-            "El usuario {} intentó desactivar su propia cuenta.",
-            Sesion.getUsuario().getUsuario()
-        );
 
         return resultado;
 
@@ -338,6 +375,12 @@ public class UsuarioService {
         }
 
         if (Sesion.getUsuario().getIdUsuario() == id) {
+
+            logger.warn(
+                "El usuario {} intentó eliminar su propia cuenta.",
+                Sesion.getUsuario().getUsuario()
+            );
+
             return false;
         }
 
@@ -358,17 +401,19 @@ public class UsuarioService {
                     LocalDateTime.now()
             ));
 
+            logger.info(
+                "Usuario eliminado correctamente. ID {}",
+                id
+            );
+
+        } else {
+
+            logger.warn(
+                "No se pudo eliminar el usuario ID {}",
+                id
+            );
+
         }
-
-        logger.info(
-            "Usuario eliminado correctamente. ID {}",
-            id
-        );
-
-        logger.warn(
-            "El usuario {} intentó eliminar su propia cuenta.",
-            Sesion.getUsuario().getUsuario()
-        );
 
         return resultado;
 

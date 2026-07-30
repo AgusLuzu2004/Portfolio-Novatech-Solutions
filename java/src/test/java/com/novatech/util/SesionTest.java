@@ -1,19 +1,19 @@
 package com.novatech.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.novatech.model.Rol;
 import com.novatech.model.Usuario;
 
 public class SesionTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Sesion.cerrarSesion();
     }

@@ -1,68 +1,65 @@
 package com.novatech.dao;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.novatech.model.Cliente;
 
 class ClienteDAOTest {
 
     private ClienteDAO clienteDAO;
+    private Cliente clienteDePrueba;
 
     @BeforeEach
     void setUp() {
 
         clienteDAO = new ClienteDAO();
 
+        clienteDePrueba = new Cliente();
+        clienteDePrueba.setNombre("TestDAO_" + System.nanoTime());
+        clienteDePrueba.setApellido("Pérez");
+        clienteDePrueba.setEdad(30);
+        clienteDePrueba.setSexo("Otro");
+        clienteDePrueba.setProvincia("Buenos Aires");
+        clienteDePrueba.setCiudad("La Plata");
+        clienteDePrueba.setFechaAlta(LocalDate.now());
+
+    }
+
+    @AfterEach
+    void tearDown() {
+
+        for (Cliente c : clienteDAO.buscarPorNombre(clienteDePrueba.getNombre())) {
+            clienteDAO.eliminar(c.getIdCliente());
+        }
+
     }
 
     @Test
     void deberiaInsertarCliente() {
 
-        Cliente cliente = new Cliente();
+        clienteDAO.insertar(clienteDePrueba);
 
-        cliente.setNombre("Juan");
-        cliente.setApellido("Pérez");
-        cliente.setEdad(30);
-        cliente.setProvincia("Buenos Aires");
-        cliente.setCiudad("La Plata");
+        List<Cliente> resultado = clienteDAO.buscarPorNombre(clienteDePrueba.getNombre());
 
-        clienteDAO.insertar(cliente);
-
-        Cliente resultado =
-                clienteDAO.buscarPorId(cliente.getIdCliente());
-
-        assertNotNull(resultado);
-
-        assertEquals(
-                "Juan",
-                resultado.getNombre()
-        );
-
-    }
-
-    @Test
-    void deberiaBuscarClientePorId() {
-
-        Cliente cliente =
-                clienteDAO.buscarPorId(1);
-
-        assertNotNull(cliente);
+        assertFalse(resultado.isEmpty());
+        assertEquals(clienteDePrueba.getNombre(), resultado.get(0).getNombre());
+        assertEquals("Pérez", resultado.get(0).getApellido());
 
     }
 
     @Test
     void deberiaBuscarPorNombre() {
 
-        List<Cliente> clientes =
-                clienteDAO.buscarPorNombre("Juan");
+        clienteDAO.insertar(clienteDePrueba);
+
+        List<Cliente> clientes = clienteDAO.buscarPorNombre(clienteDePrueba.getNombre());
 
         assertFalse(clientes.isEmpty());
 
@@ -71,38 +68,30 @@ class ClienteDAOTest {
     @Test
     void deberiaActualizarCliente() {
 
-        Cliente cliente =
-                clienteDAO.buscarPorId(1);
+        clienteDAO.insertar(clienteDePrueba);
 
-        cliente.setCiudad("Quilmes");
+        Cliente insertado = clienteDAO.buscarPorNombre(clienteDePrueba.getNombre()).get(0);
 
-        clienteDAO.actualizar(cliente);
+        insertado.setCiudad("Quilmes");
 
-        Cliente actualizado =
-                clienteDAO.buscarPorId(1);
+        clienteDAO.actualizar(insertado);
 
-        assertEquals(
-                "Quilmes",
-                actualizado.getCiudad()
-        );
+        Cliente actualizado = clienteDAO.buscarPorId(insertado.getIdCliente());
+
+        assertEquals("Quilmes", actualizado.getCiudad());
 
     }
 
     @Test
     void deberiaEliminarCliente() {
 
-        Cliente cliente = new Cliente();
+        clienteDAO.insertar(clienteDePrueba);
 
-        cliente.setNombre("Eliminar");
-
-        clienteDAO.insertar(cliente);
-
-        int id = cliente.getIdCliente();
+        int id = clienteDAO.buscarPorNombre(clienteDePrueba.getNombre()).get(0).getIdCliente();
 
         clienteDAO.eliminar(id);
 
-        Cliente eliminado =
-                clienteDAO.buscarPorId(id);
+        Cliente eliminado = clienteDAO.buscarPorId(id);
 
         assertNull(eliminado);
 
@@ -111,8 +100,9 @@ class ClienteDAOTest {
     @Test
     void deberiaListarClientes() {
 
-        List<Cliente> clientes =
-                clienteDAO.listarClientes();
+        clienteDAO.insertar(clienteDePrueba);
+
+        List<Cliente> clientes = clienteDAO.listarClientes();
 
         assertNotNull(clientes);
 

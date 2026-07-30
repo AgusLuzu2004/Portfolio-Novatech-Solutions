@@ -124,8 +124,8 @@ public class ProductoService {
             throw new IllegalArgumentException("Debe seleccionar una categoría válida.");
         }
 
-        if (producto.getPrecio() < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo.");
+        if (producto.getPrecio() <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor a cero.");
         }
 
         if (producto.getStock() < 0) {

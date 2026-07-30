@@ -11,10 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class VentaServiceTest {
@@ -37,29 +37,34 @@ class VentaServiceTest {
 
     private Venta crearVentaValida() {
 
-        Producto producto = new Producto();
+                Producto producto = new Producto();
+                producto.setIdProducto(1);
+                producto.setNombre("Notebook");
+                producto.setPrecio(800000);
+                producto.setStock(20);
 
-        producto.setIdProducto(1);
-        producto.setNombre("Notebook");
-        producto.setPrecio(800000);
-        producto.setStock(20);
+                DetalleVenta detalle = new DetalleVenta();
+                detalle.setProducto(producto);
+                detalle.setCantidad(2);
+                detalle.setPrecioUnitario(800000);
 
-        DetalleVenta detalle = new DetalleVenta();
+                Cliente cliente = new Cliente();
+                cliente.setNombre("Juan");
 
-        detalle.setProducto(producto);
-        detalle.setCantidad(2);
-        detalle.setPrecioUnitario(800000);
+                Empleado empleado = new Empleado();
+                empleado.setNombre("Pedro");
 
-        Venta venta = new Venta();
+                Venta venta = new Venta();
+                venta.setCliente(cliente);
+                venta.setEmpleado(empleado);
+                venta.setFecha(LocalDateTime.now());
+                venta.setMedioPago("Efectivo");
+                venta.setCanal("Local");
+                venta.setDetalles(List.of(detalle));
+                venta.setDescuento(10);
 
-        venta.setCliente(new Cliente());
-        venta.setEmpleado(new Empleado());
-        venta.setDetalles(List.of(detalle));
-        venta.setDescuento(10);
-
-        return venta;
-
-    }
+                return venta;
+        }
 
     @Test
     void deberiaRegistrarVentaCorrectamente() {
@@ -184,7 +189,7 @@ class VentaServiceTest {
     }
 
     @Test
-    void deberiaActualizarStock() {
+    void deberiaCalcularElTotalAlRegistrarLaVenta() {
 
         Venta venta = crearVentaValida();
 
@@ -195,8 +200,9 @@ class VentaServiceTest {
 
         ventaService.registrarVenta(venta);
 
-        verify(productoDAO)
-                .actualizar(any());
+        assertEquals(1440000, venta.getTotal(), 0.01);
+
+        verify(ventaDAO).registrarVenta(venta);
 
     }
 

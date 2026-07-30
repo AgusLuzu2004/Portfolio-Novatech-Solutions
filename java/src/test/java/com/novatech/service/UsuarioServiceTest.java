@@ -4,12 +4,16 @@ import com.novatech.dao.AuditoriaDAO;
 import com.novatech.dao.UsuarioDAO;
 import com.novatech.model.Rol;
 import com.novatech.model.Usuario;
+import com.novatech.util.PasswordUtil;
+import com.novatech.util.Sesion;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class UsuarioServiceTest {
@@ -22,20 +26,29 @@ class UsuarioServiceTest {
     void setUp() {
 
         usuarioDAO = Mockito.mock(UsuarioDAO.class);
+        auditoriaDAO = Mockito.mock(AuditoriaDAO.class);
 
         usuarioService = new UsuarioService(usuarioDAO, auditoriaDAO);
 
+        Sesion.cerrarSesion();
+
     }
 
-    private Usuario crearUsuarioValido() {
+    @AfterEach
+    void tearDown() {
+        Sesion.cerrarSesion();
+    }
+
+    private Usuario usuarioConPassword(int id, String usuarioNombre, String passwordPlana, boolean activo) {
 
         Usuario usuario = new Usuario();
 
-        usuario.setUsuario("admin");
-        usuario.setNombre("Administrador");
-        usuario.setContraseña("Password123");
-        usuario.setRol(Rol.ADMINISTRADOR);
-        usuario.setActivo(true);
+        usuario.setIdUsuario(id);
+        usuario.setUsuario(usuarioNombre);
+        usuario.setNombre("Nombre " + usuarioNombre);
+        usuario.setContraseña(PasswordUtil.hashear(passwordPlana));
+        usuario.setRol(Rol.VENDEDOR);
+        usuario.setActivo(activo);
 
         return usuario;
 
@@ -44,163 +57,248 @@ class UsuarioServiceTest {
     @Test
     void deberiaGuardarUsuarioValido() {
 
-        Usuario usuario = crearUsuarioValido();
+        Usuario nuevo = new Usuario();
+        nuevo.setUsuario("nuevo");
+        nuevo.setNombre("Usuario Nuevo");
+        nuevo.setContraseña("Password123");
+        nuevo.setRol(Rol.VENDEDOR);
 
-        assertDoesNotThrow(() -> usuarioService.crearUsuario(usuario));
+        when(usuarioDAO.buscarPorUsuario("nuevo")).thenReturn(null);
+        when(usuarioDAO.insertar(any())).thenReturn(true);
 
-        verify(usuarioDAO).insertar(usuario);
+        Sesion.setUsuario(usuarioConPassword(1, "admin", "Admin1234!", true));
+
+        boolean resultado = usuarioService.crearUsuario(nuevo);
+
+        assertTrue(resultado);
+        verify(usuarioDAO).insertar(nuevo);
+        verify(auditoriaDAO).registrar(any());
+
+        assertNotEquals("Password123", nuevo.getContraseña());
+        assertTrue(PasswordUtil.verificar("Password123", nuevo.getContraseña()));
 
     }
 
     @Test
-    void deberiaLanzarExcepcionSiUsuarioEstaVacio() {
+    void deberiaRechazarContraseñaCorta() {
 
-        Usuario usuario = crearUsuarioValido();
+        Usuario nuevo = new Usuario();
+        nuevo.setUsuario("nuevo");
+        nuevo.setNombre("Usuario Nuevo");
+        nuevo.setContraseña("corta");
+        nuevo.setRol(Rol.VENDEDOR);
 
-        usuario.setUsuario("");
+        boolean resultado = usuarioService.crearUsuario(nuevo);
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> usuarioService.crearUsuario(usuario)
-        );
-
+        assertFalse(resultado);
         verify(usuarioDAO, never()).insertar(any());
 
     }
 
     @Test
-    void deberiaLanzarExcepcionSiNombreEstaVacio() {
+    void deberiaRechazarUsuarioDuplicado() {
 
-        Usuario usuario = crearUsuarioValido();
+        Usuario nuevo = new Usuario();
+        nuevo.setUsuario("existente");
+        nuevo.setNombre("Usuario Existente");
+        nuevo.setContraseña("Password123");
+        nuevo.setRol(Rol.VENDEDOR);
 
-        usuario.setNombre("");
+        when(usuarioDAO.buscarPorUsuario("existente"))
+                .thenReturn(usuarioConPassword(2, "existente", "Cualquiera1", true));
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> usuarioService.crearUsuario(usuario)
-        );
+        boolean resultado = usuarioService.crearUsuario(nuevo);
+
+        assertFalse(resultado);
+        verify(usuarioDAO, never()).insertar(any());
 
     }
 
     @Test
-    void deberiaLanzarExcepcionSiPasswordTieneMenosDe8Caracteres() {
+    void deberiaRetornarNullSiUsuarioNoExiste() {
 
-        Usuario usuario = crearUsuarioValido();
+        when(usuarioDAO.buscarPorUsuario("fantasma")).thenReturn(null);
 
-        usuario.setContraseña("12345");
+        Usuario resultado = usuarioService.iniciarSesion("fantasma", "cualquiera");
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> usuarioService.crearUsuario(usuario)
-        );
+        assertNull(resultado);
+
+    }
+
+    @Test
+    void deberiaRetornarNullSiUsuarioEstaInactivo() {
+
+        Usuario inactivo = usuarioConPassword(3, "inactivo", "Password123", false);
+
+        when(usuarioDAO.buscarPorUsuario("inactivo")).thenReturn(inactivo);
+
+        Usuario resultado = usuarioService.iniciarSesion("inactivo", "Password123");
+
+        assertNull(resultado);
+
+    }
+
+    @Test
+    void deberiaRetornarNullSiContraseñaEsIncorrecta() {
+
+        Usuario usuario = usuarioConPassword(4, "admin", "Password123", true);
+
+        when(usuarioDAO.buscarPorUsuario("admin")).thenReturn(usuario);
+
+        Usuario resultado = usuarioService.iniciarSesion("admin", "claveIncorrecta");
+
+        assertNull(resultado);
 
     }
 
     @Test
     void deberiaIniciarSesionCorrectamente() {
 
-        Usuario usuario = crearUsuarioValido();
+        Usuario usuario = usuarioConPassword(5, "admin", "Password123", true);
 
-        when(usuarioDAO.buscarPorUsuario("admin"))
-                .thenReturn(usuario);
+        when(usuarioDAO.buscarPorUsuario("admin")).thenReturn(usuario);
 
-        Usuario resultado =
-                usuarioService.iniciarSesion(
-                        "admin",
-                        "Password123"
-                );
+        Usuario resultado = usuarioService.iniciarSesion("admin", "Password123");
 
         assertNotNull(resultado);
-
-    }
-
-    @Test
-    void deberiaLanzarExcepcionSiUsuarioNoExiste() {
-
-        when(usuarioDAO.buscarPorUsuario("admin"))
-                .thenReturn(null);
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> usuarioService.iniciarSesion(
-                        "admin",
-                        "Password123"
-                )
-        );
-
-    }
-
-    @Test
-    void deberiaLanzarExcepcionSiUsuarioEstaInactivo() {
-
-        Usuario usuario = crearUsuarioValido();
-
-        usuario.setActivo(false);
-
-        when(usuarioDAO.buscarPorUsuario("admin"))
-                .thenReturn(usuario);
-
-        assertThrows(
-                IllegalStateException.class,
-                () -> usuarioService.iniciarSesion(
-                        "admin",
-                        "Password123"
-                )
-        );
-
-    }
-
-    @Test
-    void deberiaCambiarPassword() {
-
-        Usuario usuario = crearUsuarioValido();
-
-        when(usuarioDAO.buscarPorUsuario("admin"))
-                .thenReturn(usuario);
-
-        assertDoesNotThrow(() ->
-                usuarioService.cambiarContraseña(1,
-                        "admin",
-                        "Password123",
-                        "NuevaPassword123"
-                )
-        );
-
-        verify(usuarioDAO).actualizar(any());
+        assertEquals("admin", resultado.getUsuario());
+        assertEquals(usuario, Sesion.getUsuario());
+        verify(auditoriaDAO).registrar(any());
 
     }
 
     @Test
     void deberiaActivarUsuario() {
 
-        Usuario usuario = crearUsuarioValido();
+        Sesion.setUsuario(usuarioConPassword(1, "admin", "Admin1234!", true));
 
-        usuario.setActivo(false);
+        when(usuarioDAO.activar(10)).thenReturn(true);
+        when(usuarioDAO.buscarPorId(10))
+                .thenReturn(usuarioConPassword(10, "vendedor", "Vend1234!", false));
 
-        when(usuarioDAO.buscarPorId(1))
-                .thenReturn(usuario);
+        boolean resultado = usuarioService.activarUsuario(10);
 
-        usuarioService.activarUsuario(1);
-
-        assertTrue(usuario.isActivo());
-
-        verify(usuarioDAO).actualizar(usuario);
+        assertTrue(resultado);
+        verify(usuarioDAO).activar(10);
+        verify(usuarioDAO, never()).actualizar(any());
+        verify(auditoriaDAO).registrar(any());
 
     }
 
     @Test
     void deberiaDesactivarUsuario() {
 
-        Usuario usuario = crearUsuarioValido();
+        Sesion.setUsuario(usuarioConPassword(1, "admin", "Admin1234!", true));
 
-        when(usuarioDAO.buscarPorId(1))
-                .thenReturn(usuario);
+        when(usuarioDAO.buscarPorId(10))
+                .thenReturn(usuarioConPassword(10, "vendedor", "Vend1234!", true));
 
-        usuarioService.desactivarUsuario(1);
+        when(usuarioDAO.desactivar(10)).thenReturn(true);
 
-        assertFalse(usuario.isActivo());
+        boolean resultado = usuarioService.desactivarUsuario(10);
 
-        verify(usuarioDAO).actualizar(usuario);
+        assertTrue(resultado);
+        verify(usuarioDAO).desactivar(10);
+        verify(usuarioDAO, never()).actualizar(any());
+        verify(auditoriaDAO).registrar(any());
+
+    }
+
+    @Test
+    void deberiaRechazarAutoDesactivacion() {
+
+        Usuario admin = usuarioConPassword(1, "admin", "Admin1234!", true);
+
+        Sesion.setUsuario(admin);
+
+        when(usuarioDAO.buscarPorId(1)).thenReturn(admin);
+
+        boolean resultado = usuarioService.desactivarUsuario(1);
+
+        assertFalse(resultado);
+        verify(usuarioDAO, never()).desactivar(anyInt());
+
+    }
+
+    @Test
+    void deberiaEliminarUsuario() {
+
+        Sesion.setUsuario(usuarioConPassword(1, "admin", "Admin1234!", true));
+
+        when(usuarioDAO.buscarPorId(10))
+                .thenReturn(usuarioConPassword(10, "vendedor", "Vend1234!", true));
+
+        when(usuarioDAO.eliminar(10)).thenReturn(true);
+
+        boolean resultado = usuarioService.eliminarUsuario(10);
+
+        assertTrue(resultado);
+        verify(usuarioDAO).eliminar(10);
+        verify(auditoriaDAO).registrar(any());
+
+    }
+
+    @Test
+    void deberiaRechazarAutoEliminacion() {
+
+        Usuario admin = usuarioConPassword(1, "admin", "Admin1234!", true);
+
+        Sesion.setUsuario(admin);
+
+        when(usuarioDAO.buscarPorId(1)).thenReturn(admin);
+
+        boolean resultado = usuarioService.eliminarUsuario(1);
+
+        assertFalse(resultado);
+        verify(usuarioDAO, never()).eliminar(anyInt());
+
+    }
+
+    @Test
+    void deberiaCambiarPasswordCorrectamente() {
+
+        Usuario usuario = usuarioConPassword(10, "vendedor", "ActualPass1", true);
+
+        when(usuarioDAO.buscarPorId(10)).thenReturn(usuario);
+        when(usuarioDAO.cambiarContraseña(eq(10), anyString())).thenReturn(true);
+
+        boolean resultado = usuarioService.cambiarContraseña(
+                10, "ActualPass1", "NuevaPass1", "NuevaPass1");
+
+        assertTrue(resultado);
+        verify(usuarioDAO).cambiarContraseña(eq(10), anyString());
+        verify(usuarioDAO, never()).actualizar(any());
+        verify(auditoriaDAO).registrar(any());
+
+    }
+
+    @Test
+    void deberiaRechazarCambioSiContraseñaActualEsIncorrecta() {
+
+        Usuario usuario = usuarioConPassword(10, "vendedor", "ActualPass1", true);
+
+        when(usuarioDAO.buscarPorId(10)).thenReturn(usuario);
+
+        boolean resultado = usuarioService.cambiarContraseña(
+                10, "ClaveMala", "NuevaPass1", "NuevaPass1");
+
+        assertFalse(resultado);
+        verify(usuarioDAO, never()).cambiarContraseña(anyInt(), anyString());
+
+    }
+
+    @Test
+    void deberiaRechazarCambioSiNoCoincideConfirmacion() {
+
+        Usuario usuario = usuarioConPassword(10, "vendedor", "ActualPass1", true);
+
+        when(usuarioDAO.buscarPorId(10)).thenReturn(usuario);
+
+        boolean resultado = usuarioService.cambiarContraseña(
+                10, "ActualPass1", "NuevaPass1", "OtraCosa1");
+
+        assertFalse(resultado);
+        verify(usuarioDAO, never()).cambiarContraseña(anyInt(), anyString());
 
     }
 

@@ -142,8 +142,10 @@ public class VentaService {
 
         for (DetalleVenta detalle : venta.getDetalles()) {
 
-            total += detalle.getSubtotal();
+            double subtotal = detalle.getPrecioUnitario() * detalle.getCantidad();
+            detalle.setSubtotal(subtotal);
 
+            total += subtotal;
         }
 
         total *= (1 - venta.getDescuento() / 100);

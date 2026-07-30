@@ -3,6 +3,7 @@ java/src/main/resources/db.properties
 
 # --- Maven / Java build ---
 java/target/
+java/logs/
 *.class
 
 # --- IDE ---
