@@ -1,0 +1,64 @@
+@startuml diagrama_casos_uso
+left to right direction
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Administrador" as Admin
+actor "Vendedor" as Vendedor
+
+rectangle "NovaTech Solutions" {
+
+    usecase "Iniciar sesión" as UC_Login
+    usecase "Cerrar sesión" as UC_Logout
+
+    usecase "Consultar clientes" as UC_Clientes
+    usecase "Consultar productos" as UC_Productos
+    usecase "Registrar venta" as UC_Venta
+    usecase "Consultar historial\n de ventas" as UC_Historial
+    usecase "Ver reportes básicos" as UC_Reportes
+
+    usecase "Gestionar clientes" as UC_GClientes
+    usecase "Gestionar productos" as UC_GProductos
+    usecase "Gestionar empleados" as UC_GEmpleados
+    usecase "Gestionar usuarios" as UC_GUsuarios
+
+    usecase "Dashboard" as UC_Dashboard
+    usecase "Exportar Excel" as UC_Excel
+    usecase "Exportar PDF" as UC_PDF
+
+    usecase "Crear Backup" as UC_Backup
+    usecase "Restaurar Backup" as UC_Restore
+    usecase "Consultar Auditoría" as UC_Auditoria
+    usecase "Configurar Sistema" as UC_Config
+}
+
+Vendedor --> UC_Login
+Vendedor --> UC_Logout
+Vendedor --> UC_Clientes
+Vendedor --> UC_Productos
+Vendedor --> UC_Venta
+Vendedor --> UC_Historial
+Vendedor --> UC_Reportes
+
+Admin --> UC_Login
+Admin --> UC_Logout
+Admin --> UC_Clientes
+Admin --> UC_Productos
+Admin --> UC_Venta
+Admin --> UC_Historial
+Admin --> UC_Reportes
+
+Admin --> UC_GClientes
+Admin --> UC_GProductos
+Admin --> UC_GEmpleados
+Admin --> UC_GUsuarios
+Admin --> UC_Dashboard
+Admin --> UC_Excel
+Admin --> UC_PDF
+Admin --> UC_Backup
+Admin --> UC_Restore
+Admin --> UC_Auditoria
+Admin --> UC_Config
+
+@enduml

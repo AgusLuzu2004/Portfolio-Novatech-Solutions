@@ -1,0 +1,21 @@
+@startuml diagrama_secuencias
+
+actor Usuario
+
+Usuario -> VentaController : Confirmar venta
+
+VentaController -> VentaService : registrarVenta()
+
+VentaService -> VentaDAO : insertarVenta()
+
+VentaDAO -> MySQL : INSERT
+
+MySQL --> VentaDAO : OK
+
+VentaDAO --> VentaService : Venta creada
+
+VentaService --> VentaController : Venta registrada
+
+VentaController --> Usuario : Mostrar éxito
+
+@enduml

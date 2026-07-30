@@ -97,3 +97,7 @@ Actualmente el proyecto se encuentra en construcción y se irán incorporando nu
 
 - LinkedIn: <https://www.linkedin.com/in/agustín-luzuriaga-ba464a197/>
 - GitHub: <https://github.com/AgusLuzu2004>
+
+## 📄 Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Consulte el archivo `LICENSE` para más información.

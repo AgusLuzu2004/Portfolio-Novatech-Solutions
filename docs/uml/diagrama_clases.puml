@@ -1,0 +1,85 @@
+@startuml diagrama_clases
+
+class Cliente{
+    -idCliente : int
+    -nombre : String
+    -apellido : String
+    -edad : int
+    -sexo : String
+    -provincia : String
+    -ciudad : String
+    -fechaAlta : LocalDate
+}
+
+class Producto{
+    -idProducto : int
+    -nombre : String
+    -marca : String
+    -precio : double
+    -stock : int
+}
+
+class Categoria{
+    -idCategoria: int
+    -nombreCategoria: String
+}
+
+class Empleado{
+    -idEmpleado : int
+    -nombre : String
+    -apellido : String
+    -fechaIngreso : LocalDate
+}
+
+class Sucursal{
+    -idSucursal : int
+    -nombre : String
+    -provincia : String
+    -ciudad : String
+}
+
+class Venta{
+    -idVenta : int
+    -fecha : LocalDateTime
+    -medioPago : String
+    -canal : String
+    -descuento : double
+    -total : double
+}
+
+class DetalleVenta{
+    -cantidad : int
+    -precioUnitario : double
+    -subtotal : double
+}
+
+class Usuario{
+    -idUsuario : int
+    -usuario : String
+    -contraseña : String
+    -activo : boolean
+    -rol : Rol
+}
+
+class Auditoria{
+    -id : int
+    -usuario : String
+    -accion : String
+    -modulo : String
+    -fecha : LocalDateTime
+}
+
+enum Rol{
+    ADMINISTRADOR
+    VENDEDOR
+}
+
+Cliente "1" -- "*" Venta : realiza
+Empleado "1" -- "*" Venta : registra
+Producto "1" -- "*" DetalleVenta : contiene
+Venta "1" *-- "*" DetalleVenta : pertenece
+Categoria "1" -- "*" Producto : clasifica
+Sucursal "1" -- "*" Empleado : emplea
+Usuario "1" -- "*" Auditoria : genera
+
+@enduml
