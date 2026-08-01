@@ -59,14 +59,14 @@ jobs:
 
       - name: Verificar local_infile
         run: |
-          mysql -h127.0.0.1 -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
+            docker exec mysql mysql -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
 
       - name: Inicializar base de datos
         run: |
-          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/tablas.sql
-          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/constraints.sql
-          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/logica_bd.sql
-          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/importacion.sql
+            docker exec -i mysql mysql -uroot -proot novatech < sql/tablas.sql
+            docker exec -i mysql mysql -uroot -proot novatech < sql/constraints.sql
+            docker exec -i mysql mysql -uroot -proot novatech < sql/logica_bd.sql
+            docker exec -i mysql mysql --local-infile=1 -uroot -proot novatech < sql/importacion.sql
 
       - name: Build and Test
         working-directory: java
