@@ -28,9 +28,10 @@ jobs:
 
       - name: Iniciar MySQL
         run: |
-          docker run -d \
+            docker run -d \
             --name mysql \
             -e MYSQL_ROOT_PASSWORD=root \
+            -e MYSQL_ROOT_HOST=% \
             -e MYSQL_DATABASE=novatech \
             -p 3306:3306 \
             mysql:8.0 \
@@ -59,7 +60,7 @@ jobs:
 
       - name: Verificar local_infile
         run: |
-            docker exec mysql mysql -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
+            docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
 
       - name: Inicializar base de datos
         run: |
