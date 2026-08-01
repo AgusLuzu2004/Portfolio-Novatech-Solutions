@@ -11,20 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: novatech
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -proot"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
     env:
       DB_URL: jdbc:mysql://127.0.0.1:3306/novatech?allowLoadLocalInfile=true
       DB_USER: root
@@ -39,12 +25,33 @@ jobs:
           distribution: temurin
           java-version: 25
           cache: maven
-      - name: Crear base de datos
+
+      - name: Iniciar MySQL
         run: |
-            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/tablas.sql
-            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/constraints.sql
-            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/logica_bd.sql
-            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/importacion.sql
+          docker run -d \
+            --name mysql \
+            -e MYSQL_ROOT_PASSWORD=root \
+            -e MYSQL_DATABASE=novatech \
+            -p 3306:3306 \
+            mysql:8.0 \
+            --local-infile=1
+
+      - name: Esperar MySQL
+        run: |
+          until docker exec mysql mysqladmin ping -proot --silent; do
+            sleep 2
+          done
+
+      - name: Verificar local_infile
+        run: |
+          mysql -h127.0.0.1 -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
+
+      - name: Inicializar base de datos
+        run: |
+          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/tablas.sql
+          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/constraints.sql
+          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/logica_bd.sql
+          mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/importacion.sql
 
       - name: Build and Test
         working-directory: java
