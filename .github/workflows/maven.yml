@@ -2,27 +2,51 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
-
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: novatech
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+          --local-infile=1
+
+    env:
+      DB_URL: jdbc:mysql://127.0.0.1:3306/novatech?allowLoadLocalInfile=true
+      DB_USER: root
+      DB_PASSWORD: root
+
     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '25'
+          java-version: 25
           cache: maven
+      - name: Crear base de datos
+        run: |
+            mysql --local-infile=1 -h127.0.0.1 -uroot -proot < sql/creacion_bd.sql
+            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/tablas.sql
+            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/constraints.sql
+            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/logica_bd.sql
+            mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/importacion.sql
 
       - name: Build and Test
         working-directory: java
