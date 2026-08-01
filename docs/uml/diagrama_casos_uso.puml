@@ -7,58 +7,64 @@ skinparam actorStyle awesome
 actor "Administrador" as Admin
 actor "Vendedor" as Vendedor
 
+note left of Vendedor
+  El rol se guarda por usuario, pero
+  actualmente NO restringe el acceso:
+  cualquier usuario logueado ve las
+  mismas opciones (no hay "Cerrar sesión"
+  tampoco; se cierra la app entera).
+end note
+
 rectangle "NovaTech Solutions" {
 
     usecase "Iniciar sesión" as UC_Login
-    usecase "Cerrar sesión" as UC_Logout
-
-    usecase "Consultar clientes" as UC_Clientes
-    usecase "Consultar productos" as UC_Productos
-    usecase "Registrar venta" as UC_Venta
-    usecase "Consultar historial\n de ventas" as UC_Historial
-    usecase "Ver reportes básicos" as UC_Reportes
 
     usecase "Gestionar clientes" as UC_GClientes
     usecase "Gestionar productos" as UC_GProductos
     usecase "Gestionar empleados" as UC_GEmpleados
-    usecase "Gestionar usuarios" as UC_GUsuarios
+    usecase "Registrar venta" as UC_Venta
+    usecase "Ver reportes (con filtros)" as UC_Reportes
 
-    usecase "Dashboard" as UC_Dashboard
+    usecase "Gestionar usuarios" as UC_GUsuarios
+    usecase "Consultar Auditoría" as UC_Auditoria
+
     usecase "Exportar Excel" as UC_Excel
     usecase "Exportar PDF" as UC_PDF
 
     usecase "Crear Backup" as UC_Backup
     usecase "Restaurar Backup" as UC_Restore
-    usecase "Consultar Auditoría" as UC_Auditoria
     usecase "Configurar Sistema" as UC_Config
+    usecase "Editar Preferencias" as UC_Prefs
 }
 
 Vendedor --> UC_Login
-Vendedor --> UC_Logout
-Vendedor --> UC_Clientes
-Vendedor --> UC_Productos
+Vendedor --> UC_GClientes
+Vendedor --> UC_GProductos
+Vendedor --> UC_GEmpleados
 Vendedor --> UC_Venta
-Vendedor --> UC_Historial
 Vendedor --> UC_Reportes
+Vendedor --> UC_GUsuarios
+Vendedor --> UC_Auditoria
+Vendedor --> UC_Excel
+Vendedor --> UC_PDF
+Vendedor --> UC_Backup
+Vendedor --> UC_Restore
+Vendedor --> UC_Config
+Vendedor --> UC_Prefs
 
 Admin --> UC_Login
-Admin --> UC_Logout
-Admin --> UC_Clientes
-Admin --> UC_Productos
-Admin --> UC_Venta
-Admin --> UC_Historial
-Admin --> UC_Reportes
-
 Admin --> UC_GClientes
 Admin --> UC_GProductos
 Admin --> UC_GEmpleados
+Admin --> UC_Venta
+Admin --> UC_Reportes
 Admin --> UC_GUsuarios
-Admin --> UC_Dashboard
+Admin --> UC_Auditoria
 Admin --> UC_Excel
 Admin --> UC_PDF
 Admin --> UC_Backup
 Admin --> UC_Restore
-Admin --> UC_Auditoria
 Admin --> UC_Config
+Admin --> UC_Prefs
 
 @enduml

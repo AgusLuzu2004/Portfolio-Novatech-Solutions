@@ -32,13 +32,17 @@ src
 Dentro de `main/java`:
 
 ```text
+config/
 controller/
 dao/
 model/
 service/
 util/
-exception/
 ```
+
+### config
+
+Configuración de conexión a la base de datos (`Conexion`, `DbConfig`).
 
 ### controller
 
@@ -59,10 +63,6 @@ Lógica de negocio.
 ### util
 
 Clases auxiliares.
-
-### exception
-
-Excepciones personalizadas.
 
 ---
 

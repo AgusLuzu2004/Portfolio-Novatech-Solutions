@@ -1,60 +1,27 @@
 # Atajos y Accesos Rápidos
 
-## Generales
+Por ahora la aplicación no tiene atajos de teclado personalizados implementados (no hay manejo de `Ctrl+N`, `Ctrl+S`, `F5`, `Supr`, etc. en ningún lado del código). Lo único disponible es:
 
-| Acción | Atajo |
-| --------- | -------- |
-| Nuevo registro | Ctrl + N |
-| Guardar | Ctrl + S |
-| Buscar | Ctrl + F |
-| Actualizar | F5 |
-| Eliminar | Supr |
-| Imprimir | Ctrl + P |
-| Exportar PDF | Ctrl + Shift + P |
-| Exportar Excel | Ctrl + E |
-| Cerrar ventana | Esc |
-| Salir del sistema | Alt + F4 |
+## Login
 
----
+Enter (estando en el campo de contraseña, o en cualquier lado de la ventana)
 
-## Navegación
-
-- Doble clic sobre una fila: editar registro.
-- Enter: confirmar acción.
-- Esc: cancelar.
+Inicia sesión — equivalente a hacer clic en "Ingresar".
 
 ---
 
 ## Tabla
 
-- Clic sobre el encabezado: ordenar columna.
-- Doble clic: abrir detalle.
-- Scroll: desplazarse.
+Clic sobre el encabezado de una columna: ordena por esa columna.
+
+Esto es un comportamiento por defecto de los `TableView` de JavaFX, no algo agregado a mano.
 
 ---
 
-## Reportes
+## Salir
 
-F5
-
-Actualiza todos los gráficos.
+Menú **Archivo → Salir** (no hay atajo de teclado asignado).
 
 ---
 
-## Ventas
-
-Enter
-
-Confirma la cantidad.
-
-Ctrl + Enter
-
-Confirma la venta.
-
----
-
-## Login
-
-Enter
-
-Inicia sesión.
+Si te interesa, se pueden agregar atajos reales (`Ctrl+N` para nuevo registro, `F5` para refrescar, `Supr` para eliminar, etc.) usando `Scene.getAccelerators()` o `KeyCombination` en cada controller — hoy no existen.

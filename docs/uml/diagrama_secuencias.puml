@@ -2,19 +2,36 @@
 
 actor Usuario
 
-Usuario -> VentaController : Confirmar venta
+Usuario -> VentaController : Confirmar venta (carrito con N productos)
 
-VentaController -> VentaService : registrarVenta()
+VentaController -> VentaService : registrarVenta(venta)
 
-VentaService -> VentaDAO : insertarVenta()
+VentaService -> VentaService : validarVenta()\n(cliente, empleado, al menos 1 producto...)
 
-VentaDAO -> MySQL : INSERT
+VentaService -> VentaService : verificarStock()\n(por cada producto del carrito)
+
+VentaService -> VentaService : calcularSubtotales() / calcularTotal()
+
+VentaService -> VentaDAO : registrarVenta(venta)
+
+VentaDAO -> MySQL : setAutoCommit(false)
+
+loop por cada producto del carrito
+    VentaDAO -> MySQL : INSERT INTO ventas\n(una fila por producto)
+    VentaDAO -> MySQL : UPDATE productos\nSET stock = stock - cantidad\nWHERE stock >= cantidad
+    alt no había stock suficiente
+        VentaDAO -> MySQL : ROLLBACK
+        VentaDAO --> VentaService : false
+    end
+end
+
+VentaDAO -> MySQL : COMMIT
 
 MySQL --> VentaDAO : OK
 
-VentaDAO --> VentaService : Venta creada
+VentaDAO --> VentaService : true
 
-VentaService --> VentaController : Venta registrada
+VentaService --> VentaController : true
 
 VentaController --> Usuario : Mostrar éxito
 

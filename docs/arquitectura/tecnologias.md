@@ -4,7 +4,7 @@
 
 | Tecnología | Uso |
 | ------------ | ----- |
-| Java 21 | Desarrollo de la aplicación |
+| Java 25 | Desarrollo de la aplicación |
 | SQL | Base de datos |
 | Python | Generación y procesamiento de datos |
 | Markdown | Documentación |
@@ -23,7 +23,7 @@
 | SLF4J | API de logging |
 | Apache POI | Exportación a Excel |
 | OpenPDF | Exportación a PDF |
-| BCrypt | Cifrado de contraseñas |
+| PBKDF2WithHmacSHA256 | Hash de contraseñas con sal aleatoria |
 
 ---
 

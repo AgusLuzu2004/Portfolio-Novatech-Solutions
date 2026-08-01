@@ -40,7 +40,9 @@ Portfolio-Novatech-Solutions
 ├── powerbi
 ├── python
 ├── java
-└── README.md
+├── docs
+├── README.md
+└── LICENSE
 ```
 
 ---

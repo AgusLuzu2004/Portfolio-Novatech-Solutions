@@ -15,27 +15,17 @@ class Producto{
     -idProducto : int
     -nombre : String
     -marca : String
+    -idCategoria : int
     -precio : double
     -stock : int
-}
-
-class Categoria{
-    -idCategoria: int
-    -nombreCategoria: String
 }
 
 class Empleado{
     -idEmpleado : int
     -nombre : String
     -apellido : String
-    -fechaIngreso : LocalDate
-}
-
-class Sucursal{
     -idSucursal : int
-    -nombre : String
-    -provincia : String
-    -ciudad : String
+    -fechaIngreso : LocalDate
 }
 
 class Venta{
@@ -56,9 +46,10 @@ class DetalleVenta{
 class Usuario{
     -idUsuario : int
     -usuario : String
+    -nombre : String
     -contraseña : String
-    -activo : boolean
     -rol : Rol
+    -activo : boolean
 }
 
 class Auditoria{
@@ -74,12 +65,17 @@ enum Rol{
     VENDEDOR
 }
 
+note top of Producto
+  "Categoria" y "Sucursal" no son clases Java propias:
+  idCategoria/idSucursal se manejan como int/String
+  sueltos en las consultas (no hay Categoria.java
+  ni Sucursal.java en el proyecto).
+end note
+
 Cliente "1" -- "*" Venta : realiza
 Empleado "1" -- "*" Venta : registra
 Producto "1" -- "*" DetalleVenta : contiene
-Venta "1" *-- "*" DetalleVenta : pertenece
-Categoria "1" -- "*" Producto : clasifica
-Sucursal "1" -- "*" Empleado : emplea
+Venta "1" *-- "*" DetalleVenta : arma (en memoria; no persiste como tabla propia)
 Usuario "1" -- "*" Auditoria : genera
 
 @enduml

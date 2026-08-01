@@ -17,7 +17,7 @@
 ## Software
 
 - Windows 10 / Windows 11
-- Java JDK 21
+- Java JDK 25
 - Maven 3.9+
 - MySQL 8
 - Git

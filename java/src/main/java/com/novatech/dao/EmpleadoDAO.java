@@ -3,6 +3,7 @@ package com.novatech.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -287,7 +288,14 @@ public class EmpleadoDAO {
 
             ps.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1451) {
+                throw new RuntimeException(
+                    "No se puede eliminar el empleado porque tiene ventas asociadas."
+                );
+            }
+
             e.printStackTrace();
         }
     }

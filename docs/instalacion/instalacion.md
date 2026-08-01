@@ -4,7 +4,7 @@
 
 Antes de ejecutar la aplicación, asegurarse de tener instalado:
 
-- Java 21 o superior
+- Java 25 o superior
 - Maven 3.9 o superior
 - MySQL 8.0
 - Git
@@ -12,7 +12,7 @@ Antes de ejecutar la aplicación, asegurarse de tener instalado:
 ## Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU-USUARIO/Portfolio-Novatech-Solutions.git
+git clone https://github.com/AgusLuzu2004/Portfolio-Novatech-Solutions.git
 ```
 
 Ingresar al proyecto:
@@ -25,42 +25,45 @@ cd Portfolio-Novatech-Solutions
 
 ## Crear la base de datos
 
-Abrir MySQL Workbench y ejecutar:
+Abrir MySQL Workbench (o la consola de MySQL) y ejecutar los scripts ubicados en la carpeta `sql/`, en este orden:
 
-```sql
-CREATE DATABASE novatech;
-```
+1. `creacion_bd.sql` — crea la base `novatech`
+2. `tablas.sql` — crea las tablas
+3. `constraints.sql` — agrega las restricciones (CHECK)
+4. `importacion.sql` — carga los datos del dataset (`dataset/*.csv`)
+5. `logica_bd.sql` — procedimientos, funciones y triggers
+6. `vistas.sql` — vistas
 
-Luego ejecutar los scripts ubicados en la carpeta:
-
-```text
-sql/
-```
-
-En el siguiente orden:
-
-1. 01_create_tables.sql
-2. 02_insert_data.sql
-3. 03_views.sql
-4. 04_procedures.sql
-5. 05_triggers.sql
+El archivo `consultas.sql` no es parte de la instalación: son consultas de ejemplo para explorar la base ya cargada.
 
 ---
 
 ## Configurar la conexión
 
-Editar el archivo:
+Copiar la plantilla y completar tus propios datos:
 
-```text
-src/main/resources/database.properties
+```bash
+cp java/src/main/resources/db.properties.example java/src/main/resources/db.properties
 ```
 
-Ejemplo:
+Editar `java/src/main/resources/db.properties`:
 
 ```properties
 db.url=jdbc:mysql://localhost:3306/novatech
 db.user=root
-db.password=123456
+db.password=tu_contraseña
+```
+
+Este archivo no se sube al repositorio (está en `.gitignore`). Alternativamente, podés definir las variables de entorno `DB_URL`, `DB_USER` y `DB_PASSWORD`, que tienen prioridad sobre el archivo.
+
+---
+
+## Crear el usuario administrador inicial
+
+La tabla `usuarios` arranca vacía — sin este paso no vas a poder loguearte la primera vez. Ejecutar:
+
+```text
+sql/usuario_admin_inicial.sql
 ```
 
 ---
@@ -70,10 +73,11 @@ db.password=123456
 Desde la raíz del proyecto:
 
 ```bash
+cd java
 mvn clean javafx:run
 ```
 
-O bien ejecutar desde el IDE (IntelliJ IDEA o Visual Studio Code).
+O bien ejecutar `Main.java` desde el IDE (IntelliJ IDEA o Visual Studio Code).
 
 ---
 
@@ -90,7 +94,7 @@ admin
 Contraseña:
 
 ```text
-admin123
+Admin1234!
 ```
 
 (Se recomienda cambiar la contraseña luego del primer inicio de sesión).

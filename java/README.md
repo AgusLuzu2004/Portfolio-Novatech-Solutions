@@ -6,7 +6,7 @@ Aplicación de escritorio desarrollada en Java para administrar la información 
 
 ## Tecnologías
 
-- Java 21
+- Java 25
 - JavaFX
 - JDBC
 - Maven
@@ -76,12 +76,10 @@ Validaciones:
 Funcionalidades:
 
 - Registro de ventas
-- Múltiples productos por venta
+- Múltiples productos por venta (carrito)
 - Actualización automática de stock
-- Historial
-- Detalle
-- Búsquedas
-- Transacciones JDBC
+- Validación de stock disponible
+- Transacciones JDBC (rollback si falla algún producto)
 
 Integraciones:
 
@@ -113,29 +111,27 @@ Características:
 Características:
 
 - Login
-- Roles
-- Permisos
+- Roles (Administrador / Vendedor)
 - Gestión de usuarios
 - Auditoría
 - Cambio de contraseña
 - Configuración del sistema
 
+Nota: actualmente el rol se guarda por usuario pero no restringe el acceso a ninguna pantalla — todo usuario logueado ve el mismo menú.
+
 Tecnologías:
 
 - JavaFX
 - JDBC
-- BCrypt (recomendado)
+- PBKDF2WithHmacSHA256 (hash de contraseñas con sal aleatoria)
 
 ## Funcionalidades finales
 
 - Exportación a Excel
 - Exportación a PDF
-- Impresión
 - Copias de seguridad
 - Restauración
-- Preferencias
-- Historial de exportaciones
-- Panel "Acerca de"
+- Preferencias (tema, idioma, ruta) con persistencia local
 
 ## Testing
 
@@ -161,7 +157,7 @@ Tecnologías:
 Se registran:
 
 - Inicio del sistema
-- Inicio y cierre de sesión
+- Inicio de sesión
 - Altas
 - Modificaciones
 - Eliminaciones

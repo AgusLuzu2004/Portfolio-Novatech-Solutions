@@ -30,7 +30,7 @@ El objetivo es almacenar clientes, productos, empleados y ventas evitando redund
 - Una sucursal posee muchos empleados.
 - Una venta pertenece a un cliente.
 - Una venta es registrada por un empleado.
-- Una venta contiene uno o varios productos.
+- Cada fila de "ventas" corresponde a un único producto vendido (no hay una tabla de detalle separada): si un cliente compra varios productos en la misma operación, se generan varias filas de venta, una por producto.
 
 ---
 

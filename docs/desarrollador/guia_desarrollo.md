@@ -62,7 +62,7 @@ Cuando se implementa una nueva funcionalidad, se recomienda seguir el siguiente 
 
 ## Tecnologías utilizadas
 
-- Java 21
+- Java 25
 - JavaFX
 - MySQL
 - JDBC

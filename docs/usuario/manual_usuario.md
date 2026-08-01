@@ -19,7 +19,7 @@ Complete:
 
 Presione **Iniciar Sesión**.
 
-Según el rol del usuario se habilitarán distintas opciones del sistema.
+Se abrirá el menú principal, con las mismas opciones para cualquier usuario (el rol no restringe el acceso a ninguna pantalla por el momento).
 
 ---
 
@@ -27,13 +27,13 @@ Según el rol del usuario se habilitarán distintas opciones del sistema.
 
 Desde el menú principal podrá acceder a:
 
-- Clientes
-- Productos
-- Empleados
-- Ventas
-- Reportes
-- Usuarios (solo administradores)
-- Configuración (solo administradores)
+**Gestión**: Clientes, Productos, Empleados, Ventas
+
+**Reportes**: Reportes, Exportaciones
+
+**Administración**: Usuarios, Auditoría, Configuración, Backups, Preferencias
+
+Todas las opciones están disponibles para cualquier usuario logueado.
 
 ---
 
@@ -74,6 +74,8 @@ Permite:
 ---
 
 ## Gestión de Ventas
+
+Esta pantalla sirve para **registrar una venta nueva** (no muestra un historial de ventas ya realizadas).
 
 Pasos:
 
@@ -120,6 +122,8 @@ Desde el módulo Backup es posible:
 
 ---
 
-## Cerrar sesión
+## Salir de la aplicación
 
-Seleccione el botón **Cerrar Sesión** ubicado en la parte superior derecha.
+Menú **Archivo → Salir**.
+
+Actualmente no hay un botón de "Cerrar sesión" independiente: para volver a la pantalla de login hay que cerrar la aplicación y abrirla de nuevo.

@@ -29,7 +29,7 @@
 | Campo | Tipo | Descripción |
 | -------- | ------ | ------------- |
 | id_producto | INT | Identificador |
-| nombre_producto | VARCHAR(150) | Nombre |
+| nombre | VARCHAR(150) | Nombre |
 | marca | VARCHAR(100) | Marca |
 | precio | DECIMAL(10,2) | Precio |
 | stock | INT | Stock disponible |
@@ -74,3 +74,28 @@
 | descuento | DECIMAL(5,2) | Descuento |
 | medio_pago | VARCHAR(50) | Medio de pago |
 | canal | VARCHAR(50) | Canal de venta |
+
+---
+
+## Tabla: usuarios
+
+| Campo | Tipo | Descripción |
+| -------- | ------ | ------------- |
+| id_usuario | INT | Identificador |
+| usuario | VARCHAR(50) | Nombre de usuario (único) |
+| contraseña | VARCHAR(255) | Hash PBKDF2 (nunca texto plano) |
+| nombre | VARCHAR(100) | Nombre completo |
+| rol | VARCHAR(30) | ADMINISTRADOR / VENDEDOR |
+| activo | BOOLEAN | Si el usuario puede loguearse |
+
+---
+
+## Tabla: auditoria
+
+| Campo | Tipo | Descripción |
+| -------- | ------ | ------------- |
+| id | INT | Identificador |
+| usuario | VARCHAR(100) | Usuario que hizo la acción |
+| accion | VARCHAR(100) | INSERT / UPDATE / ELIMINAR / LOGIN / etc. |
+| modulo | VARCHAR(100) | Módulo afectado |
+| fecha | DATETIME | Fecha y hora exacta |

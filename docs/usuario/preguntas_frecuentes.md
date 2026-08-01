@@ -42,11 +42,7 @@ Exportar a PDF.
 
 ## ¿Dónde quedan los archivos exportados?
 
-Por defecto:
-
-C:\NovaTech\Exportaciones
-
-La ubicación puede modificarse desde Preferencias.
+No hay una carpeta fija: al exportar, la aplicación abre un cuadro de diálogo para elegir dónde guardar el archivo y con qué nombre.
 
 ---
 
@@ -54,7 +50,7 @@ La ubicación puede modificarse desde Preferencias.
 
 Ir a:
 
-Configuración
+Administración
 
 ↓
 
@@ -63,6 +59,8 @@ Backups
 ↓
 
 Crear Backup
+
+(elegís la ubicación y el nombre del archivo en el diálogo que se abre)
 
 ---
 

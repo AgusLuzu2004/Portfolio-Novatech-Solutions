@@ -7,8 +7,10 @@ Modificar los datos de conexión.
 Archivo:
 
 ```text
-database.properties
+java/src/main/resources/db.properties
 ```
+
+(copiado de `db.properties.example`; no se sube al repositorio)
 
 Ejemplo:
 
@@ -17,8 +19,10 @@ db.url=jdbc:mysql://localhost:3306/novatech
 
 db.user=root
 
-db.password=123456
+db.password=tu_contraseña
 ```
+
+Alternativa: las variables de entorno `DB_URL`, `DB_USER` y `DB_PASSWORD` tienen prioridad sobre el archivo.
 
 ---
 
@@ -40,11 +44,7 @@ novatech.log
 
 ## Exportaciones
 
-Los archivos exportados se guardan por defecto en:
-
-```text
-exportaciones/
-```
+Al exportar (Excel o PDF), la aplicación abre un cuadro de diálogo para elegir dónde guardar el archivo — no hay una carpeta fija por defecto.
 
 Formato soportado:
 
@@ -55,39 +55,28 @@ Formato soportado:
 
 ## Backups
 
-Las copias de seguridad se almacenan en:
-
-```text
-backups/
-```
-
-Formato:
-
-```text
-backup_YYYY_MM_DD.sql
-```
+Al crear o restaurar un backup, la aplicación abre un cuadro de diálogo para elegir el archivo — no hay una carpeta ni un nombre de archivo fijo.
 
 ---
 
 ## Tema
 
-La aplicación permite cambiar entre:
+La pantalla de Preferencias permite elegir entre:
 
 - Tema claro
 - Tema oscuro
 
 Desde:
 
-Configuración → Preferencias
+Administración → Preferencias
 
 ---
 
 ## Idioma
 
-Actualmente disponible:
+El combo de Preferencias permite seleccionar:
 
 - Español
+- English
 
-Versión futura:
-
-- Inglés
+Por ahora esta selección solo se guarda como preferencia; la aplicación no traduce su interfaz automáticamente todavía.

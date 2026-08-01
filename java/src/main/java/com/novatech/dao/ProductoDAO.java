@@ -320,6 +320,13 @@ public class ProductoDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
+            if (e.getErrorCode() == 1451) {
+                throw new RuntimeException(
+                    "No se puede eliminar el producto porque tiene ventas asociadas."
+                );
+            }
+
             e.printStackTrace();
         }
     }

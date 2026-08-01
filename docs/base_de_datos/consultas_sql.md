@@ -33,10 +33,12 @@ WHERE stock < 10;
 
 ```sql
 SELECT
-provincia,
-SUM(precio_unitario*cantidad) AS total
-FROM ventas
-GROUP BY provincia;
+c.provincia,
+SUM(v.precio_unitario*v.cantidad) AS total
+FROM ventas v
+JOIN clientes c
+ON v.id_cliente = c.id_cliente
+GROUP BY c.provincia;
 ```
 
 ---
@@ -45,12 +47,12 @@ GROUP BY provincia;
 
 ```sql
 SELECT
-p.nombre_producto,
+p.nombre,
 SUM(v.cantidad) AS total_vendido
 FROM ventas v
 JOIN productos p
 ON v.id_producto = p.id_producto
-GROUP BY p.nombre_producto
+GROUP BY p.nombre
 ORDER BY total_vendido DESC
 LIMIT 10;
 ```
