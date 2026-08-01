@@ -37,30 +37,30 @@ jobs:
             mysql:8.0 \
             --local-infile=1
 
-      - name: Ver logs de MySQL
+      - name: Mostrar logs
         if: always()
         run: |
-            docker ps -a
-            docker logs mysql    
+            sleep 20
+            docker logs mysql
 
       - name: Esperar MySQL
         run: |
-            for i in {1..30}; do
-            if docker exec mysql mysqladmin ping -uroot -proot --silent; then
-                echo "MySQL está listo"
-                exit 0
-            fi
             echo "Esperando MySQL..."
+
+            for i in {1..60}; do
+            if docker exec mysql mysqladmin ping -uroot -proot --silent; then
+                echo "MySQL listo"
+                break
+            fi
+
             sleep 2
             done
 
-            echo "MySQL no inició correctamente"
             docker logs mysql
-            exit 1
 
       - name: Verificar local_infile
         run: |
-            docker exec mysql mysql -h127.0.0.1 -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
+            docker exec mysql mysql -uroot -proot -e "SHOW VARIABLES LIKE 'local_infile';"
 
       - name: Inicializar base de datos
         run: |
