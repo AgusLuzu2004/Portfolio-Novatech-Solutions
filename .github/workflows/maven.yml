@@ -25,4 +25,5 @@ jobs:
           cache: maven
 
       - name: Build and Test
+        working-directory: java
         run: mvn -B clean verify
