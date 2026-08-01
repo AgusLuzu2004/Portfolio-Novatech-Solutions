@@ -41,7 +41,6 @@ jobs:
           cache: maven
       - name: Crear base de datos
         run: |
-            mysql --local-infile=1 -h127.0.0.1 -uroot -proot < sql/creacion_bd.sql
             mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/tablas.sql
             mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/constraints.sql
             mysql --local-infile=1 -h127.0.0.1 -uroot -proot novatech < sql/logica_bd.sql
