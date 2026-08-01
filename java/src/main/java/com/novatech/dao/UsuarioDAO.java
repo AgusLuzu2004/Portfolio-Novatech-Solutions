@@ -32,7 +32,7 @@ public class UsuarioDAO {
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setUsuario(rs.getString("usuario"));
                 usuario.setNombre(rs.getString("nombre"));
-                usuario.setContraseña(rs.getString("contraseña"));
+                usuario.setContraseña(rs.getString("password"));
                 usuario.setRol(Rol.valueOf(rs.getString("rol")));
                 usuario.setActivo(rs.getBoolean("activo"));
 
@@ -68,7 +68,7 @@ public class UsuarioDAO {
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setUsuario(rs.getString("usuario"));
                 usuario.setNombre(rs.getString("nombre"));
-                usuario.setContraseña(rs.getString("contraseña"));
+                usuario.setContraseña(rs.getString("password"));
                 usuario.setRol(Rol.valueOf(rs.getString("rol")));
                 usuario.setActivo(rs.getBoolean("activo"));
 
@@ -103,7 +103,7 @@ public class UsuarioDAO {
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setUsuario(rs.getString("usuario"));
                 usuario.setNombre(rs.getString("nombre"));
-                usuario.setContraseña(rs.getString("contraseña"));
+                usuario.setContraseña(rs.getString("password"));
                 usuario.setRol(Rol.valueOf(rs.getString("rol")));
                 usuario.setActivo(rs.getBoolean("activo"));
 
@@ -140,7 +140,7 @@ public class UsuarioDAO {
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setUsuario(rs.getString("usuario"));
                 usuario.setNombre(rs.getString("nombre"));
-                usuario.setContraseña(rs.getString("contraseña"));
+                usuario.setContraseña(rs.getString("password"));
                 usuario.setRol(Rol.valueOf(rs.getString("rol")));
                 usuario.setActivo(rs.getBoolean("activo"));
 
@@ -157,7 +157,7 @@ public class UsuarioDAO {
 
     public boolean insertar(Usuario usuario) {
 
-        String sql = "INSERT INTO usuarios (usuario, contraseña, nombre, rol, activo) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (usuario, password, nombre, rol, activo) VALUES (?, ?, ?, ?, ?)";
 
         try (
             Connection conexion = Conexion.conectar();
@@ -207,7 +207,7 @@ public class UsuarioDAO {
 
     public boolean cambiarContraseña(int id, String nuevaContraseña) {
 
-        String sql = "UPDATE usuarios SET contraseña = ? WHERE id_usuario = ?";
+        String sql = "UPDATE usuarios SET password = ? WHERE id_usuario = ?";
 
         try (
             Connection conexion = Conexion.conectar();

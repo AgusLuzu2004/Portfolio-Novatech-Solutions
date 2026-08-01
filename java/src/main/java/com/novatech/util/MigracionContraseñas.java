@@ -17,8 +17,8 @@ public class MigracionContraseñas {
         List<String> yaHasheados = new ArrayList<>();
         List<String> conError = new ArrayList<>();
 
-        String selectSql = "SELECT id_usuario, usuario, contraseña FROM usuarios";
-        String updateSql = "UPDATE usuarios SET contraseña = ? WHERE id_usuario = ?";
+        String selectSql = "SELECT id_usuario, usuario, password FROM usuarios";
+        String updateSql = "UPDATE usuarios SET password = ? WHERE id_usuario = ?";
 
         try (Connection conexion = Conexion.conectar()) {
 
@@ -35,7 +35,7 @@ public class MigracionContraseñas {
 
                         int id = rs.getInt("id_usuario");
                         String nombreUsuario = rs.getString("usuario");
-                        String valorActual = rs.getString("contraseña");
+                        String valorActual = rs.getString("password");
 
                         if (valorActual != null && PasswordUtil.pareceHasheada(valorActual)) {
                             yaHasheados.add(nombreUsuario);
