@@ -287,7 +287,7 @@ const capturas = [
 
 let capturaActual = 0;
 
-if(imagenProyecto){
+if(imagenProyecto && capturas.length > 1){
 
     setInterval(()=>{
 

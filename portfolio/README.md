@@ -22,9 +22,9 @@ El objetivo es ofrecer una presentación clara y moderna para reclutadores y emp
 ## 🛠 Tecnologías
 
 - HTML5
-- CSS3
-- JavaScript
-- Bootstrap 5
+- CSS3 (custom, sin frameworks)
+- JavaScript (vanilla)
+- Font Awesome (íconos)
 - Git
 - GitHub Pages
 
@@ -97,25 +97,30 @@ Repositorio:
 
 ## 💻 Instalación
 
-Clonar el repositorio:
+Este sitio vive dentro del repo de NovaTech Solutions, en la carpeta `portfolio/` (no es un repositorio aparte).
+
+Clonar el repositorio principal:
 
 ```bash
-git clone https://github.com/AgusLuzu2004/portfolio.git
+git clone https://github.com/AgusLuzu2004/Portfolio-Novatech-Solutions.git
 ```
 
 Abrir el archivo:
 
 ```text
-index.html
+portfolio/index.html
 ```
 
-O desplegarlo mediante GitHub Pages.
+## 🌐 Publicarlo con GitHub Pages
+
+GitHub Pages, en su configuración simple, solo sirve desde la raíz del repo o desde `/docs` — y `/docs` ya se usa acá para la documentación técnica del proyecto. Para publicar este sitio hay dos opciones:
+
+1. Crear un repositorio aparte (por ejemplo `AgusLuzu2004.github.io`) y subir ahí el contenido de `portfolio/`.
+2. Agregar un workflow de GitHub Actions que copie `portfolio/` a una rama `gh-pages`.
 
 ## 🌐 Demo
 
-Cuando el proyecto esté publicado:
-
-<https://AgusLuzu2004.github.io/>
+<https://AgusLuzu2004.github.io/> (una vez publicado con alguna de las opciones de arriba)
 
 ## 📬 Contacto
 
